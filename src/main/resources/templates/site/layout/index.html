@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="utf-8">
+    <title>Insert title here</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <th:block th:replace="~{/common/homeFragments::css-home}">
+    </th:block>
+</head>
+<body>
+<!-- Preloader -->
+<div class="preloader">
+    <div class="preloader-inner">
+        <div class="preloader-icon">
+            <span></span> <span></span>
+        </div>
+    </div>
+</div>
+<!-- /End Preloader -->
+
+<!-- Start Header Area -->
+<header th:replace="~{/site/layout/_header::header}"></header>
+<!-- End Header Area -->
+
+<!-- Start Content Area -->
+<!-- <main th:replace="${body}"></main> -->
+<!--/ End Content Area -->
+
+<!-- Start Footer Area -->
+<footer th:replace="~{/site/layout/_footer::footer}"></footer>
+<!--/ End Footer Area -->
+
+<!-- ========================= scroll-top ========================= -->
+<a href="#" class="scroll-top"> <i class="lni lni-chevron-up"></i>
+</a>
+
+<!-- ========================= JS here ========================= -->
+<th:block th:replace="~{/common/homeFragments::js-home}">
+</th:block>
+</body>
+</html>

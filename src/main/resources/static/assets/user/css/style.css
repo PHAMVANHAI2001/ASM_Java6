@@ -1,0 +1,7 @@
+.cart-single-list .remove-text {
+    color: #f44336;
+}
+
+.cart-single-list .remove-item:hover ~ .remove-text {
+    color: #000 ;
+}
