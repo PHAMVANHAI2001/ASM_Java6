@@ -80,17 +80,17 @@ public class UserController {
 
     @GetMapping("login")
     public String doGetLogin(Model model) {
-        String username = cookieService.getValue("username", null);
-        User user = userRepo.findByUsername(username);
-        if (username != null) {
-            model.addAttribute("username", username);
-            if (user != null) {
-                String password = user.getPassword();
-                model.addAttribute("password", password);
-            }
-            model.addAttribute("isRemember", "checked");
-        }
-        return "user/login";
+//        String username = cookieService.getValue("username", null);
+//        User user = userRepo.findByUsername(username);
+//        if (username != null) {
+//            model.addAttribute("username", username);
+//            if (user != null) {
+//                String password = user.getPassword();
+//                model.addAttribute("password", password);
+//            }
+//            model.addAttribute("isRemember", "checked");
+//        }
+        return "site/user/login";
     }
 
 //    @PostMapping("login")

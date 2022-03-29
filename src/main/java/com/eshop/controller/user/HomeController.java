@@ -30,6 +30,7 @@ public class HomeController {
         Pageable pageable = PageRequest.of(p.orElse(0), 8);
         Page<Product> page = productDAO.findAll(pageable);
         model.addAttribute("page", page);
-        return "site/layout/index";
+        return "site/home/home";
     }
+    
 }
