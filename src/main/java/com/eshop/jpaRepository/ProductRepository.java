@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductDAO extends JpaRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findBySlug(String slug);
     List<Product> findByCategorySlug(String slug);
     @Query("select p from Product p where p.id <> ?1")

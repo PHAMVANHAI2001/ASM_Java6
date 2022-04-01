@@ -1,32 +1,33 @@
-// Generated with g9.
-
 package com.eshop.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Table(indexes = { @Index(name = "Category_Slug_IX", columnList = "Slug", unique = true) })
-public class Category implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id", nullable = false)
-	private Integer id;
+@Entity
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
 
-	@Column(name = "Name", nullable = false, length = 50)
-	private String name;
+    @Column(name = "Name", nullable = false, length = 50)
+    private String name;
 
-	@Column(name = "Slug", nullable = false, length = 50)
-	private String slug;
+    @Column(name = "Slug", nullable = false, length = 50)
+    private String slug;
 
-	@OneToMany(mappedBy = "category")
-	private Set<Product> products = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products = new LinkedHashSet<>();
 
+    //TODO Reverse Engineering! Migrate other columns to the entity
 }

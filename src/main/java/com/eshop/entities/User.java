@@ -1,19 +1,25 @@
-// Generated with g9.
-
 package com.eshop.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Table(indexes={@Index(name="User_Username_IX", columnList="Username", unique=true), @Index(name="User_Email_IX", columnList="Email", unique=true)})
-public class User implements Serializable {
+@Entity
+@Table(name = "\"User\"", indexes = {
+        @Index(name = "UQ__User__536C85E43114959E", columnList = "Username", unique = true),
+        @Index(name = "UQ__User__A9D10534F7B53C32", columnList = "Email", unique = true)
+})
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -40,11 +46,19 @@ public class User implements Serializable {
     @Column(name = "Photo", length = 128)
     private String photo;
 
-    @Column(name = "IsAdmin", nullable = false)
-    private Boolean isAdmin = false;
-
-
     @Column(name = "CreatedDate", nullable = false)
     private Date createdDate;
+
+    @Column(name = "Enabled", nullable = false)
+    private Boolean enabled = false;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Authority> authorities = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Cart> carts = new LinkedHashSet<>();
 
 }

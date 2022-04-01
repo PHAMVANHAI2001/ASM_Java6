@@ -1,7 +1,7 @@
 package com.eshop.controller.user;
 
 import com.eshop.entities.Product;
-import com.eshop.jpaRepository.ProductDAO;
+import com.eshop.jpaRepository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequestMapping("/product")
 public class ProductController {
     @Autowired
-    ProductDAO productDAO;
+    ProductRepository productDAO;
 
     @RequestMapping("/product-list")
     public String allProduct(Model model, @RequestParam("p") Optional<Integer> p) {

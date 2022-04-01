@@ -1,7 +1,7 @@
 package com.eshop.controller.Admin;
 
 import com.eshop.entities.Category;
-import com.eshop.jpaRepository.CategoryDAO;
+import com.eshop.jpaRepository.CategoryRepository;
 import com.eshop.service.ParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ public class CategoryController {
     ParamService paramService;
 
     @Autowired
-    CategoryDAO dao;
+    CategoryRepository dao;
 
     @RequestMapping("/admin/category")
     public String category(){
@@ -35,7 +35,7 @@ public class CategoryController {
     }
 
     @RequestMapping("/admin/category/edit/{id}")
-    public String editCategory(Model model, @PathVariable("id") Integer id){
+    public String editCategory(Model model, @PathVariable("id") Long id){
         Category category = dao.findById(id).get();
         model.addAttribute("name",category.getName());
         model.addAttribute("slug",category.getSlug());
@@ -46,7 +46,7 @@ public class CategoryController {
     }
 
     @RequestMapping("/admin/category/delete/{id}")
-    public String deleteCategory(Model model, @PathVariable("id") Integer id){
+    public String deleteCategory(Model model, @PathVariable("id") Long id){
         Category category = dao.findById(id).get();
         dao.deleteById(id);
         return "redirect:/admin/category";

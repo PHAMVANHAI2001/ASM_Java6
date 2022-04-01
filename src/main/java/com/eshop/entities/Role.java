@@ -6,13 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "role")
+@Table(name = "Role", indexes = {
+        @Index(name = "UQ__Role__737584F6A81210F5", columnList = "Name", unique = true)
+})
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +25,8 @@ public class Role {
 
     @Column(name = "Name", nullable = false, length = 50)
     private String name;
+
+    @OneToMany(mappedBy = "role")
+    private Set<Authority> authorities = new LinkedHashSet<>();
 
 }

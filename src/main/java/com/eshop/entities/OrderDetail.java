@@ -1,30 +1,30 @@
-// Generated with g9.
-
 package com.eshop.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class OrderDetail implements Serializable {
-
+@Entity
+@Table(name = "OrderDetails")
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Integer id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ProductId")
+    private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "OrderId", nullable = false)
     private Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ProductId", nullable = false)
-    private Product product;
 
     @Column(name = "Quantity", nullable = false)
     private Integer quantity;
@@ -32,4 +32,5 @@ public class OrderDetail implements Serializable {
     @Column(name = "TotalUnitPrice", nullable = false)
     private Double totalUnitPrice;
 
+    //TODO Reverse Engineering! Migrate other columns to the entity
 }

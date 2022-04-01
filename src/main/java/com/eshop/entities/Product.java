@@ -1,23 +1,36 @@
-// Generated with g9.
-
 package com.eshop.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Entity
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Table(indexes={@Index(name="Product_Slug_IX", columnList="Slug", unique=true)})
-public class Product implements Serializable {
+@Entity
+@Table(name = "Product", indexes = {
+        @Index(name = "UQ__Product__BC7B5FB6D9799138", columnList = "Slug", unique = true)
+})
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -56,13 +69,12 @@ public class Product implements Serializable {
     private Double unitPrice;
 
     @Column(name = "CreatedDate", nullable = false)
-    private Instant createdDate;
+    private Date createdDate;
 
     @Column(name = "Available", nullable = false)
     private Integer available;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "CategoryId", nullable = false)
     private Category category;
 
@@ -71,9 +83,9 @@ public class Product implements Serializable {
     private Discount discount;
 
     @OneToMany(mappedBy = "product")
-    private Set<ShoppingCart> shoppingCarts = new LinkedHashSet<>();
+    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "product")
-    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+    private Set<Cart> carts = new LinkedHashSet<>();
 
 }

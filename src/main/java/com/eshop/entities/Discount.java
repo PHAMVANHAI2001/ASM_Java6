@@ -7,13 +7,15 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "discount")
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +38,10 @@ public class Discount {
     private Boolean isActive = false;
 
     @Column(name = "CreatedDate", nullable = false)
-    private Instant createdDate;
+    private Date createdDate;
 
+    @OneToMany(mappedBy = "discount")
+    private Set<Product> products = new LinkedHashSet<>();
+
+    //TODO Reverse Engineering! Migrate other columns to the entity
 }

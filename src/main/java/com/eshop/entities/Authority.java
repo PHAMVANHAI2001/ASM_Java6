@@ -12,17 +12,18 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "authority")
 public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Integer id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserId")
+    private User user;
 
-    @Column(name = "UserId", nullable = false)
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RoleId")
+    private Role role;
 
-    @Column(name = "RoleId", nullable = false)
-    private Integer roleId;
-
+    //TODO Reverse Engineering! Migrate other columns to the entity
 }

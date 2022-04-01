@@ -1,7 +1,7 @@
 package com.eshop.controller.Admin;
 
 import com.eshop.entities.Order;
-import com.eshop.jpaRepository.OrderDAO;
+import com.eshop.jpaRepository.OrderRepository;
 import com.eshop.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ public class AdminController {
     @Autowired
     SessionService sessionService;
     @Autowired
-    OrderDAO orderDAO;
+    OrderRepository orderDAO;
 
     @RequestMapping("/admin")
     public String admin(Model model) {

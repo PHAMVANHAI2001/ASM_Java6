@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @ValidateConfirmPassword
-public class Register implements Serializable {
+public class UserRegister implements Serializable {
     @Id
     @NotBlank(message = "{NotBlank.user.username}")
     private String username;

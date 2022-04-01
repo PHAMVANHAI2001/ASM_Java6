@@ -1,7 +1,7 @@
 package com.eshop.controller.Admin;
 
 import com.eshop.entities.User;
-import com.eshop.jpaRepository.UserRepo;
+import com.eshop.jpaRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Controller
 public class UserManagermentController {
     @Autowired
-    UserRepo userRepo;
+    UserRepository userRepo;
 
     @RequestMapping("/admin/edit-user")
     public String editUsers() {
@@ -29,7 +29,7 @@ public class UserManagermentController {
     }
 
     @RequestMapping("/admin/list-user/delete/{userId}")
-    public String deleteUser(Model model, @PathVariable("userId") Integer userId) {
+    public String deleteUser(Model model, @PathVariable("userId") Long userId) {
         userRepo.deleteById(userId);
         List<User> users = userRepo.findAll();
         model.addAttribute("users", users);
@@ -37,7 +37,7 @@ public class UserManagermentController {
     }
 
     @RequestMapping("/admin/edit-user/{id}")
-    public String uploadUser(Model model, @PathVariable("id") Optional<Integer> id) {
+    public String uploadUser(Model model, @PathVariable("id") Optional<Long> id) {
         User uploadUser = userRepo.findById(id.get()).get();
         model.addAttribute("username", uploadUser.getUsername());
         model.addAttribute("password", uploadUser.getPassword());
@@ -45,7 +45,7 @@ public class UserManagermentController {
         model.addAttribute("phoneNumber", uploadUser.getPhoneNumber());
         model.addAttribute("address", uploadUser.getAddress());
         model.addAttribute("fullname", uploadUser.getFullname());
-        model.addAttribute("isAdmin", uploadUser.getIsAdmin());
+//        model.addAttribute("isAdmin", uploadUser.getIsAdmin());
         model.addAttribute("photo", uploadUser.getPhoto());
         return "admin/user/edit-user";
     }

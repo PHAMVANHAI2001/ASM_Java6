@@ -35,18 +35,18 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="top-end">
-                        <div class="dropdown user" th:unless="${#strings.isEmpty(session.username)}">
+                        <div class="dropdown user" th:if="${session.currentUser != null}">
                             <button class="btn btn-secondary dropdown-toggle" type="button"
                                     id="dropdownMenuButton2" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                 <i class="lni lni-user"></i>
-                                <span th:text="#{header.hi.user} + ', ' + ${username}"></span>
+                                <span th:text="#{header.hi.user} + ', ' + ${session.currentUser.username}"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-dark"
                                 aria-labelledby="dropdownMenuButton2">
-                                <li><a class="dropdown-item" th:href="@{/user/change-pass}">Đổi
+                                <li><a class="dropdown-item" th:href="@{/change-pass}">Đổi
                                     mật khẩu</a></li>
-                                <li><a class="dropdown-item" th:href="@{/user/profile}">Cập
+                                <li><a class="dropdown-item" th:href="@{/profile}">Cập
                                     nhật tài khoản</a></li>
                                 <li th:if="${isAdmin}"><a class="dropdown-item" th:href="@{/admin}">Quản lý
                                     admin</a></li>
@@ -57,10 +57,10 @@
                                     Xuất</a></li>
                             </ul>
                         </div>
-                        <ul class="user-login" th:if="${#strings.isEmpty(session.username)}">
-                            <li><a th:href="@{/user/login}" th:text="#{header.login}">
+                        <ul class="user-login" th:if="${session.currentUser == null}")>
+                            <li><a th:href="@{/login}" th:text="#{header.login}">
                             </a></li>
-                            <li><a th:href="@{/user/register}" th:text="#{header.register}">
+                            <li><a th:href="@{/register}" th:text="#{header.register}">
                             </a></li>
                         </ul>
                     </div>

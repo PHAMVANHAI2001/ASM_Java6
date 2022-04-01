@@ -1,7 +1,7 @@
 package com.eshop.controller.Admin;
 
 import com.eshop.entities.Product;
-import com.eshop.jpaRepository.ProductDAO;
+import com.eshop.jpaRepository.ProductRepository;
 import com.eshop.service.ParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 public class ProductManagementController {
     @Autowired
-    ProductDAO productDAO;
+    ProductRepository productDAO;
 
     @Autowired
     ParamService paramService;

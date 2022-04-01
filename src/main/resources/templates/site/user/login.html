@@ -12,8 +12,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
-					<form class="card login-form" th:action="@{/user/login}"
-						method="post">
+					<form class="card login-form" th:action="@{/login}"
+						method="post" th:object="${userRequest}">
 						<div class="card-body">
 							<div class="title">
 								<h3>Login Now</h3>
@@ -32,13 +32,12 @@
 								class="alert alert-danger" role="alert"
 								th:text="${messageFailed}"></div>
 							<div class="form-group input-group">
-								<label class="form-label">Username</label> <input
-									class="form-control" type="text" required="" name="username">
+								<label class="form-label" for="username">Username</label> 
+								<input class="form-control" id="username" type="text" name="username" required="" th:field="*{username}">
 							</div>
 							<div class="form-group input-group">
-								<label class="form-label">Password</label> <input
-									class="form-control" type="password" required=""
-									name="password">
+								<label class="form-label" for="password">Password</label> 
+								<input class="form-control" id="password" type="password" name="password" required="" th:field="*{password}">
 							</div>
 							<div
 								class="d-flex flex-wrap justify-content-between bottom-content">
@@ -47,14 +46,14 @@
 										id="remember-me" name="rememberMe"> <label
 										for="remember-me" class="form-check-label">Remember me</label>
 								</div>
-								<a class="lost-pass" th:href="@{/user/forgot-pass}">Forgot
+								<a class="lost-pass" th:href="@{/forgot-pass}">Forgot
 									password?</a>
 							</div>
 							<div class="button">
 								<button class="btn" type="submit">Login</button>
 							</div>
 							<p class="outer-link">
-								Don't have an account? <a href="@{/user/register}">Register
+								Don't have an account? <a href="@{/register}">Register
 									here </a>
 							</p>
 						</div>

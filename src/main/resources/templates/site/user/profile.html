@@ -1,13 +1,78 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      th:fragment="areas(title,body)">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:replace="~{/site/layout/index::areas(~{::title},~{::body})}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<meta charset="UTF-8">
+<title>Title</title>
 </head>
 <body>
-
+	<div class="account-login section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+					<div class="register-form">
+						<div class="title">
+							<h3>Cập nhật tài khoản</h3>
+						</div>
+						<div th:unless="${#strings.isEmpty(messageSuccess)}"
+							class="alert alert-success" role="alert">${messageSuccess}
+						</div>
+						<div th:unless="${#strings.isEmpty(messageFailed)}"
+							class="alert alert-danger" role="alert">${messageFailed}</div>
+						<form cssClass="row" th:action="@{/profile}" method="post"
+							th:object="${userRequest}" enctype="multipart/form-data">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="formFile" class="form-label">Hình ảnh</label> <img
+										class="border"
+										src="@{|/assets/images/avatar/${editProfile.photo}|}" width="90"
+										height="100">
+								</div>
+								<input class="form-control" type="file" name="filePhoto"
+									id="formFile">
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="fullname" class="form-label">Fullname</label>
+									<input type="text" class="form-control" id="fullname" name="fullname" th:field="*{fullname}">
+									<span class="invalid-feedback" th:if="${#fields.hasErrors('fullname')}"
+                                  th:errors="*{fullname}"></span>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="email" class="form-label">Email</label>
+									<input type="email" class="form-control" id="email" name="email" th:field="*{email}">
+									<span class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+                                  th:errors="*{email}"></span>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="phoneNumber" class="form-label">Phone Number</label>
+									<input type="number" class="form-control" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}">
+									<span class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
+                                  th:errors="*{phoneNumber}"></span>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="address" class="form-label">Address</label>
+									<input type="text" class="form-control" id="address" name="address" th:field="*{address}">
+									<span class="invalid-feedback" th:if="${#fields.hasErrors('address')}"
+                                  th:errors="*{address}"></span>
+								</div>
+							</div>
+							<div class="button">
+								<button class="btn" type="submit">Cập nhật</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

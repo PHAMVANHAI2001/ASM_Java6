@@ -1,31 +1,31 @@
-// Generated with g9.
-
 package com.eshop.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Table(indexes={@Index(name="Order_OrderCode_IX", columnList="OrderCode", unique=true)})
-public class Order implements Serializable {
-
+@Entity
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Integer id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserId")
+    private User user;
 
     @Column(name = "OrderCode", nullable = false, length = 11)
     private String orderCode;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "UserId", nullable = false)
-    private User user;
 
     @Column(name = "CreatedDate", nullable = false)
     private Date createdDate;
@@ -48,4 +48,8 @@ public class Order implements Serializable {
     @Column(name = "TotalUnitPrice", nullable = false)
     private Double totalUnitPrice;
 
+    @OneToMany(mappedBy = "order")
+    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+
+    //TODO Reverse Engineering! Migrate other columns to the entity
 }

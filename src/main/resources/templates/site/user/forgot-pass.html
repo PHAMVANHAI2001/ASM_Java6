@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      th:fragment="areas(title,body)">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:replace="~{/site/layout/index::areas(~{::title},~{::body})}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<meta charset="UTF-8">
+<title>Title</title>
 </head>
 <body>
-
+	<div class="account-login section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+					<div class="register-form">
+						<div class="title">
+							<h3>Quên Mật Khẩu</h3>
+						</div>
+						<div th:unless="${#strings.isEmpty(messageSuccess)}"
+							class="alert alert-success" role="alert">${messageSuccess}</div>
+						<div th:unless="${#strings.isEmpty(messageFailed)}"
+							class="alert alert-danger" role="alert">${messageFailed}</div>
+						<form class="row" th:action="@{/forgot-pass}" method="post">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="email" class="form-label">Email Address</label> <input
+										type="email" class="form-control" id="email" name="email">
+									<!-- 		<span class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+                                  th:errors="*{email}"></span> -->
+								</div>
+							</div>
+							<div class="button">
+								<button class="btn" type="submit">Lấy lại mật khẩu mới</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
