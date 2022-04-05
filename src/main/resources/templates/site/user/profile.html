@@ -21,13 +21,13 @@
 						</div>
 						<div th:unless="${#strings.isEmpty(messageFailed)}"
 							class="alert alert-danger" role="alert">${messageFailed}</div>
-						<form cssClass="row" th:action="@{/profile}" method="post"
-							th:object="${userRequest}" enctype="multipart/form-data">
+						<form Class="row" th:action="@{/profile}" th:method="post"
+							th:object="${userProfile}" enctype="multipart/form-data">
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label for="formFile" class="form-label">Hình ảnh</label> <img
 										class="border"
-										src="@{|/assets/images/avatar/${editProfile.photo}|}" width="90"
+										src="@{|/assets/images/avatar/*{.photo}|}" width="90"
 										height="100">
 								</div>
 								<input class="form-control" type="file" name="filePhoto"

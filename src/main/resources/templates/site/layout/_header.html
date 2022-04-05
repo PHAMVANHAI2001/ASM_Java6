@@ -35,12 +35,12 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="top-end">
-                        <div class="dropdown user" th:if="${session.currentUser != null}">
+                        <div class="dropdown user" sec:authorize="isAuthenticated()">
                             <button class="btn btn-secondary dropdown-toggle" type="button"
                                     id="dropdownMenuButton2" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                 <i class="lni lni-user"></i>
-                                <span th:text="#{header.hi.user} + ', ' + ${session.currentUser.username}"></span>
+                                <span th:text="#{header.hi.user} + ', ' "></span> <span sec:authentication="name"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-dark"
                                 aria-labelledby="dropdownMenuButton2">
@@ -57,7 +57,7 @@
                                     Xuất</a></li>
                             </ul>
                         </div>
-                        <ul class="user-login" th:if="${session.currentUser == null}")>
+                        <ul class="user-login" sec:authorize="!isAuthenticated()">
                             <li><a th:href="@{/login}" th:text="#{header.login}">
                             </a></li>
                             <li><a th:href="@{/register}" th:text="#{header.register}">
@@ -108,8 +108,8 @@
                             </a>
                         </div> -->
                             <!--  giỏ hàng -->
-                            <div class="cart-items" th:unless="${#strings.isEmpty(session.username)}">
-                                <a th:href="@{/user/shopping-cart}" class="main-btn"> <i
+                            <div class="cart-items" sec:authorize="isAuthenticated()">
+                                <a th:href="@{/cart}" class="main-btn"> <i
                                         class="lni lni-cart"></i>
                                     <span class="total-items" th:if="${countCart > 0}" th:text="${countCart}">${countCart}</span>
                                 </a>
@@ -128,12 +128,12 @@
                 <div class="nav-inner">
                     <!-- Start Mega Category Menu -->
                     <div class="mega-category-menu">
-                        <a th:href="@{/product/product-list}" th:text="#{header.allCategories}"><span
+                        <a th:href="@{/products}" th:text="#{header.allCategories}"><span
                                 class="cat-button"><i
                                 class="lni lni-menu"></i></span></a>
                         <ul class="sub-category">
                             <li th:each="category : ${categories}"><a
-                                    th:href="@{|/product/product-list/${category.slug}|}" th:text="${category.name}">${category.name}</a>
+                                    th:href="@{|/products/${category.slug}|}" th:text="${category.name}"></a>
                             </li>
                         </ul>
                     </div>

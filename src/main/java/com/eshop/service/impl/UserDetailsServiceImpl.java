@@ -1,20 +1,20 @@
 package com.eshop.service.impl;
 
-import com.eshop.entities.Authority;
-import com.eshop.entities.User;
-import com.eshop.service.AuthorityService;
-import com.eshop.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.eshop.entities.Authority;
+import com.eshop.entities.User;
+import com.eshop.service.AuthorityService;
+import com.eshop.service.UserService;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -24,16 +24,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	AuthorityService authorityService;
 
-	@Autowired
-	BCryptPasswordEncoder bcrypt;
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User userRequest = userService.findByUsername(username);
 		if (userRequest == null) {
+			System.out.println("Không tìm thấy người dùng có username: " + username);
 			throw new UsernameNotFoundException("Không tìm thấy người dùng có username: " + username);
 		}
-		String password = bcrypt.encode(userRequest.getPassword());
+		String password = userRequest.getPassword();
 		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
 		List<Authority> authorities = authorityService.findByUser(userRequest);
 		for (Authority auth : authorities) {

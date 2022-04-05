@@ -19,4 +19,10 @@ public class AuthorityServiceImpl implements AuthorityService{
 		return authorityRepo.findByUser(user);
 	}
 
+	@Override
+	public Authority save(Authority authority) {
+		// TODO Auto-generated method stub
+		return authorityRepo.saveAndFlush(authority);
+	}
+
 }

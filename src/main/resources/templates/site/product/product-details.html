@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:replace="~{/site/layout/index::areas(~{::title},~{::main})}">
+<head>
+<meta charset="utf-8">
+<title>Chi Tiết Sản Phẩm</title>
+</head>
+<body>
+	<main>
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="col-lg-6 col-md-6 col-12">
+						<div class="breadcrumbs-content">
+							<h1 class="page-title">Chi tiết sản phẩm</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Breadcrumbs -->
+
+		<!-- Start Item Details -->
+		<section class="item-details section">
+			<div class="container">
+				<div class="top-area">
+					<div class="row align-items-center">
+						<div class="col-lg-6 col-md-12 col-12">
+							<div class="product-images">
+								<main id="gallery">
+									<div class="main-img">
+										<img th:src="@{|${product.image}|}" id="current" alt="#">
+									</div>
+									<div class="images">
+										<img th:src="@{|${product.imagePreview1}|}" class="img"
+											alt="#"> <img th:src="@{|${product.imagePreview2}|}"
+											class="img" alt="#"> <img
+											th:src="@{|${product.imagePreview3}|}" class="img" alt="#">
+									</div>
+								</main>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-12 col-12" th:object="${product}">
+							<div class="product-info">
+								<h2 class="title" th:text="${product.name}"></h2>
+								<p class="category">
+									<i class="lni lni-tag"></i><a href="javascript:void(0)"
+										th:text="${product.category.name}"></a>
+								</p>
+								<div class="price" th:if="*{discount != null}"
+									th:with="salePrice=*{unitPrice-(unitPrice*discount.saleOff)/100} ">
+									<span class="discount-price" th:text="*{#numbers.formatDecimal(unitPrice,0,'POINT',2,'COMMA')} + 'VNĐ'"></span> <br>
+									<b>[(${#numbers.formatDecimal(salePrice,0,'POINT',2,'COMMA')})] VNĐ</b>
+								</div>
+								<div class="price" th:if="*{discount == null}">
+									<span
+										th:text="*{#numbers.formatDecimal(unitPrice,0,'POINT',2,'COMMA')} + 'VNĐ'">
+									</span>
+								</div>
+								<p class="info-text" th:text="${product.description}"></p>
+								<div class="row">
+									<div class="col-lg-4 col-md-4 col-12">
+										<div class="form-group color-option">
+											<label class="title-label">Choose color</label>
+											<div class="single-checkbox checkbox-style-1">
+												<input type="checkbox" id="checkbox-1" checked> <label
+													for="checkbox-1"><span></span></label>
+											</div>
+											<div class="single-checkbox checkbox-style-2">
+												<input type="checkbox" id="checkbox-2"> <label
+													for="checkbox-2"><span></span></label>
+											</div>
+											<div class="single-checkbox checkbox-style-3">
+												<input type="checkbox" id="checkbox-3"> <label
+													for="checkbox-3"><span></span></label>
+											</div>
+											<div class="single-checkbox checkbox-style-4">
+												<input type="checkbox" id="checkbox-4"> <label
+													for="checkbox-4"><span></span></label>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-12">
+										<div class="form-group quantity">
+											<label for="color">Quantity</label> <select
+												class="form-control">
+												<option>1</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="bottom-content">
+									<div class="row align-items-end">
+										<div class="col-lg-4 col-md-4 col-12">
+											<div class="button cart-button">
+												<button class="btn" style="width: 100%;" formaction="/cart/add/${product.slug}">Add to
+													Cart</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="product-details-info">
+					<div class="single-block">
+						<div class="row">
+							<div class="col-lg-6 col-12">
+								<div class="info-body custom-responsive-margin">
+									<h4>Details</h4>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+										sed do eiusmod tempor incididunt ut labore et dolore magna
+										aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+										ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+										aute irure dolor in reprehenderit in voluptate velit esse
+										cillum dolore eu fugiat.</p>
+									<h4>Features</h4>
+									<ul class="features">
+										<li>Capture 4K30 Video and 12MP Photos</li>
+										<li>Game-Style Controller with Touchscreen</li>
+										<li>View Live Camera Feed</li>
+										<li>Full Control of HERO6 Black</li>
+										<li>Use App for Dedicated Camera Operation</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-lg-6 col-12">
+								<div class="info-body">
+									<h4>Specifications</h4>
+									<ul class="normal-list">
+										<li><span>Weight:</span> 35.5oz (1006g)</li>
+										<li><span>Maximum Speed:</span> 35 mph (15 m/s)</li>
+										<li><span>Maximum Distance:</span> Up to 9,840ft (3,000m)</li>
+										<li><span>Operating Frequency:</span> 2.4GHz</li>
+										<li><span>Manufacturer:</span> GoPro, USA</li>
+									</ul>
+									<h4>Shipping Options:</h4>
+									<ul class="normal-list">
+										<li><span>Courier:</span> 2 - 4 days, $22.50</li>
+										<li><span>Local Shipping:</span> up to one week, $10.00</li>
+										<li><span>UPS Ground Shipping:</span> 4 - 6 days, $18.00</li>
+										<li><span>Unishop Global Export:</span> 3 - 4 days,
+											$25.00</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End Item Details -->
+		<script type="text/javascript">
+        const current = document.getElementById("current");
+        const opacity = 0.6;
+        const imgs = document.querySelectorAll(".img");
+        imgs.forEach(img => {
+            img.addEventListener("click", (e) => {
+                //reset opacity
+                imgs.forEach(img => {
+                    img.style.opacity = 1;
+                });
+                current.src = e.target.src;
+                //adding class 
+                //current.classList.add("fade-in");
+                //opacity
+                e.target.style.opacity = opacity;
+            });
+        });
+    </script>
+	</main>
+</body>
+</html>

@@ -1,20 +1,25 @@
 package com.eshop.interceptor;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.eshop.entities.Cart;
 import com.eshop.entities.User;
 import com.eshop.jpaRepository.CartRepository;
 import com.eshop.jpaRepository.CategoryRepository;
 import com.eshop.jpaRepository.ProductRepository;
-import com.eshop.jpaRepository.UserRepository;
+import com.eshop.service.CartService;
+import com.eshop.service.CategoryService;
 import com.eshop.service.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import com.eshop.service.UserService;
 
 @Service
 public class GlobalInterceptor implements HandlerInterceptor {
@@ -22,13 +27,11 @@ public class GlobalInterceptor implements HandlerInterceptor {
 	@Autowired
 	SessionService sessionService;
 	@Autowired
-    UserRepository userRepo;
+    UserService userService;
 	@Autowired
-	CartRepository cartDAO;
+	CategoryService categoryService;
 	@Autowired
-	CategoryRepository categoryDAO;
-	@Autowired
-	ProductRepository productDAO;
+	CartService cartService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -39,15 +42,12 @@ public class GlobalInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-//		request.setAttribute("products", productDAO.findAll());
-		request.setAttribute("categories", categoryDAO.findAll());
-		String username = sessionService.get("username", null);
-		if(username != null) {
-			User user = userRepo.findByUsername(username);
-			List<Cart> countCart = cartDAO.findByUserId(user.getId());
-			request.setAttribute("countCart", countCart.size());
-//			boolean isAdmin = user.getIsAdmin();
-//			request.setAttribute("isAdmin", isAdmin);
-		}
+		request.setAttribute("categories", categoryService.findAll());
+//		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//		if(username != null) {
+//			User user = userService.findByUsername(username);
+//			List<Cart> countCart = cartService.findByUserId(user.getId());
+//			request.setAttribute("countCart", countCart.size());
+//		}
 	}
 }

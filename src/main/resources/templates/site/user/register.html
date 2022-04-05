@@ -23,7 +23,7 @@
 							<div th:unless="${#strings.isEmpty(messageFailed)}" class="alert alert-danger" role="alert">
 								${messageFailed}</div>
 						<form class="row" th:action="@{/register}" th:method="post"
-							th:object="${userRequest}">
+							th:object="${userRegister}">
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="username" class="form-label">Username</label>

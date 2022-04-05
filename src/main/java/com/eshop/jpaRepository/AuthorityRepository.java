@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AuthorityRepository extends JpaRepository<Authority, Long>{
+public interface AuthorityRepository extends JpaRepository<Authority, Integer>{
 	List<Authority> findByUser(User user);
 }

@@ -27,50 +27,48 @@
 											</div>
 										</div>
 									</div>
-									<c:forEach items="${cartList}" var="cart">
-										<div th:each="" class="cart-single-list">
-											<div class="row align-items-center">
-												<div class="col-lg-1 col-md-2 col-12">
-													<a href="product-details.html"><img
-														src="${cart.product.image}" alt="#"></a>
+									<div th:each="cart : ${cartList}" class="cart-single-list">
+										<div class="row align-items-center">
+											<div class="col-lg-1 col-md-2 col-12">
+												<a th:href="#"><img th:src="${cart.product.image}"
+													alt="#"></a>
+											</div>
+											<div class="col-lg-9 col-md-7 col-12">
+												<h5 class="product-name">
+													<a href="#" th:text="${cart.product.name}"> </a>
+												</h5>
+												<p class="product-des">
+													<span><em>Danh mục:</em>
+														[(${cart.product.category.name})]</span> <span><em>Giá
+															tiền: </em>[(${#numbers.formatDecimal(cart.product.unitPrice,
+														0, 'WHITESPACE', 2, 'POINT')})] VNĐ</span>
+												</p>
+											</div>
+											<div class="col-lg-2 col-md-3 col-12">
+												<div class="count-input">
+													<input class="form-control" type="number" id="quantity1"
+														min="1" value="${cart.quantity}">
 												</div>
-												<div class="col-lg-9 col-md-7 col-12">
-													<h5 class="product-name">
-														<a href="product-details.html"> ${cart.product.name}</a>
-													</h5>
-													<p class="product-des">
-														<span><em>Danh mục:</em>
-															${cart.product.category.name}</span> <span><em>Giá
-																tiền:</em> <fmt:formatNumber type="number"
-																value="${cart.product.unitPrice}" /> VNĐ</span>
-													</p>
-												</div>
-												<div class="col-lg-2 col-md-3 col-12">
-													<div class="count-input">
-														<input class="form-control" type="number" id="quantity1"
-															min="1" value="${cart.quantity}">
-													</div>
-													<div
-														class="d-inline-flex align-items-center position-relative">
-														<a class="remove-item stretched-link m-0"
-															href="/user/shopping-cart/remove/${cart.id}"><i
-															class="lni lni-close"></i></a> <span class="remove-text ps-2">Remove</span>
-													</div>
+												<div
+													class="d-inline-flex align-items-center position-relative">
+													<a class="remove-item stretched-link m-0"
+														th:href="@{|/cart/remove/${cart.id}|}"><i
+														class="lni lni-close"></i></a> <span class="remove-text ps-2">Remove</span>
 												</div>
 											</div>
 										</div>
-									</c:forEach>
+									</div>
 								</div>
 							</div>
 							<div class="col-lg-3 col-12">
 								<div class="right">
 									<ul>
-										<li>Tổng Tiền: <span><fmt:formatNumber
-													type="number" value="${totalUnitPrice}" /></span></li>
+										<li>Tổng Tiền: <span>[(${#numbers.formatDecimal(totalUnitPrice,
+												0, 'WHITESPACE', 2, 'POINT')})]</span></li>
 										<li>Shipping<span>Free</span></li>
 									</ul>
 									<div class="button">
-										<a href="/user/shopping-cart/order" class="btn">Đặt Hàng</a>
+										<a th:href="@{/cart/order}" class="btn">Đặt Hàng</a>
 									</div>
 								</div>
 							</div>

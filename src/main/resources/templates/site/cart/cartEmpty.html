@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:replace="~{/site/layout/index::areas(~{::title},~{::main})}">
+<head>
+<meta charset="UTF-8">
+<title>Giỏ Hàng</title>
+</head>
+<body>
+	<main>
+		<div class="container mt-2 mb-3 d-flex align-items-center justify-content-center" style="min-height:350px">
+			<div class="nothing-in-cart text-center">
+				<img alt="" th:src="@{assets/images/icon/sad-64.png}">
+				<p class="h4 mt-3 mb-5">Không có sản phẩm nào trong giỏ hàng, vui lòng quay lại</p>
+				<a th:href="@{/home}" class="go-back btn btn-danger">Quay lại trang chủ</a>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

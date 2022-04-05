@@ -1,7 +1,12 @@
 package com.eshop.service.impl;
 
-import com.eshop.entities.MailInfo;
-import com.eshop.service.MailerService;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,11 +14,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.eshop.entities.MailInfo;
+import com.eshop.service.MailerService;
 
 @Service
 public class MailerServiceImpl implements MailerService {
