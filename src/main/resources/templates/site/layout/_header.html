@@ -1,176 +1,180 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-<meta charset="utf-8">
-<title>Insert title here</title>
+    <meta charset="utf-8">
+    <title>Insert title here</title>
 </head>
 <body>
-	<header class="header navbar-area fixed-top" th:fragment="header">
-		<!-- Start Topbar -->
-		<div class="topbar">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-8 col-md-8 col-12">
-						<div class="top-left">
-							<ul class="menu-top-link">
-								<li>
-									<div class="select-position">
-										<select id="select-language" onchange="changeLanguage()"
-											class="px-3">
-											<option th:value="vi"
-												th:if="${#locale.language == 'vi' ?
+<header class="header navbar-area fixed-top" th:fragment="header">
+    <!-- Start Topbar -->
+    <div class="topbar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 col-md-8 col-12">
+                    <div class="top-left">
+                        <ul class="menu-top-link">
+                            <li>
+                                <div class="select-position">
+                                    <select id="select-language" onchange="changeLanguage()"
+                                            class="px-3">
+                                        <option th:value="vi"
+                                                th:if="${#locale.language == 'vi' ?
                                         'selected' : ''}">
-												Tiếng Việt</option>
-											<option th:value="en"
-												th:if="${#locale.language == 'en' ?
+                                            Tiếng Việt
+                                        </option>
+                                        <option th:value="en"
+                                                th:if="${#locale.language == 'en' ?
                                         'selected' : ''}">
-												English</option>
-										</select>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-12">
-						<div class="top-end">
-							<div class="dropdown user" sec:authorize="isAuthenticated()">
-								<button class="btn btn-secondary dropdown-toggle" type="button"
-									id="dropdownMenuButton2" data-bs-toggle="dropdown"
-									aria-expanded="false">
-									<i class="lni lni-user"></i> <span
-										th:text="#{header.hi.user} + ', ' "></span> <span
-										sec:authentication="name"></span>
-								</button>
-								<ul class="dropdown-menu dropdown-menu-dark"
-									aria-labelledby="dropdownMenuButton2">
-									<li><a class="dropdown-item" th:href="@{/change-pass}">Đổi
-											mật khẩu</a></li>
-									<li><a class="dropdown-item" th:href="@{/profile}">Cập
-											nhật tài khoản</a></li>
-									<li th:if="${isAdmin}"><a class="dropdown-item"
-										th:href="@{/admin}">Quản lý admin</a></li>
-									<li>
-										<hr class="dropdown-divider">
-									</li>
-									<li><a class="dropdown-item" th:href="@{/logout}">Đăng
-											Xuất</a></li>
-								</ul>
-							</div>
-							<ul class="user-login" sec:authorize="!isAuthenticated()">
-								<li><a th:href="@{/login}" th:text="#{header.login}"> </a></li>
-								<li><a th:href="@{/register}" th:text="#{header.register}">
-								</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Topbar -->
-		<!-- Start Header Middle -->
-		<div class="header-middle">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-md-3 col-7">
-						<!-- Start Header Logo -->
-						<a class="navbar-brand" th:href="@{/home}"> <img
-							th:src="@{/assets/user/images/logo/logo.svg}" alt="Logo">
-						</a>
-						<!-- End Header Logo -->
-					</div>
-					<div class="col-md-7 d-xs-none">
-						<!-- Start Main Menu Search -->
-						<div class="main-menu-search">
-							<!-- navbar search start -->
-							<form th:action="@{/search/}" th:method="get">
-								<div class="navbar-search search-style-5">
-									<div class="search-input">
-										<input type="text" placeholder="Search" name="keyword"
-											th:value="${keyword}">
-									</div>
-									<div class="search-btn">
-										<button type="submit">
-											<i class="lni lni-search-alt"></i>
-										</button>
-									</div>
-								</div>
-							</form>
-							<!-- navbar search Ends -->
-						</div>
-						<!-- End Main Menu Search -->
-					</div>
-					<div class="col-md-2 col-5">
-						<div class="">
-							<div class="navbar-cart">
-								<!--        <div class="wishlist">
-                            <a href="javascript:void(0)">
-                                <i class="lni lni-heart"></i>
-                                <span class="total-items">0</span>
-                            </a>
-                        </div> -->
-								<!--  giỏ hàng -->
-								<div class="cart-items" sec:authorize="isAuthenticated()">
-									<a th:href="@{/cart}" class="main-btn"> <i
-										class="lni lni-cart"></i> <span class="total-items"
-										th:if="${countCart > 0}" th:text="${countCart}">${countCart}</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Header Middle -->
-		<!-- Start Header Bottom -->
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-12 col-md-6 col-12">
-					<div class="nav-inner">
-						<!-- Start Mega Category Menu -->
-						<div class="mega-category-menu">
-							<a th:href="@{/products}" th:text="#{header.allCategories}"><span
-								class="cat-button"><i class="lni lni-menu"></i></span></a>
-							<ul class="sub-category">
-								<li th:each="category : ${categories}"><a
-									th:href="@{|/products/${category.slug}|}"
-									th:text="${category.name}"></a></li>
-							</ul>
-						</div>
-						<!-- End Mega Category Menu -->
-						<!-- Start Navbar -->
-						<nav class="navbar navbar-expand-lg">
-							<button class="navbar-toggler mobile-menu-btn" type="button"
-								data-bs-toggle="collapse"
-								data-bs-target="#navbarSupportedContent"
-								aria-controls="navbarSupportedContent" aria-expanded="false"
-								aria-label="Toggle navigation">
-								<span class="toggler-icon"></span> <span class="toggler-icon"></span>
-								<span class="toggler-icon"></span>
-							</button>
-							<div class="collapse navbar-collapse sub-menu-bar"
-								id="navbarSupportedContent">
-								<ul id="nav" class="navbar-nav ms-auto">
-									<li class="nav-item"><a th:href="@{/home}" class="active"
-										aria-label="Toggle navigation" th:text="#{header.home}"> </a></li>
-									<li class="nav-item"><a href="#"
-										aria-label="Toggle navigation" th:text="#{header.aboutUs}">
-									</a></li>
-									<li class="nav-item"><a href="#"
-										aria-label="Toggle navigation" th:text="#{header.contact}">
-									</a></li>
-								</ul>
-							</div>
-							<!-- navbar collapse -->
-						</nav>
-						<!-- End Navbar -->
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Header Bottom -->
-	</header>
+                                            English
+                                        </option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-end">
+                        <div class="dropdown user" sec:authorize="isAuthenticated()">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="lni lni-user"></i> <span
+                                    th:text="#{header.hi.user} + ', ' "></span> <span
+                                    sec:authentication="name"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark"
+                                aria-labelledby="dropdownMenuButton2">
+                                <li><a class="dropdown-item" th:href="@{/change-pass}">Đổi
+                                    mật khẩu</a></li>
+                                <li><a class="dropdown-item" th:href="@{/profile}">Cập
+                                    nhật tài khoản</a></li>
+                                <li><a class="dropdown-item" th:href="@{/order-history}">Lịch sử mua hàng</a></li>
+                                <li th:if="${isAdmin}"><a class="dropdown-item"
+                                                          th:href="@{/admin}">Quản lý admin</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">Đăng
+                                    Xuất</a></li>
+                            </ul>
+                        </div>
+                        <ul class="user-login" sec:authorize="!isAuthenticated()">
+                            <li><a th:href="@{/login}" th:text="#{header.login}"> </a></li>
+                            <li><a th:href="@{/register}" th:text="#{header.register}">
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Topbar -->
+    <!-- Start Header Middle -->
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 col-7">
+                    <!-- Start Header Logo -->
+                    <a class="navbar-brand" th:href="@{/home}"> <img
+                            th:src="@{/assets/user/images/logo/logo.svg}" alt="Logo">
+                    </a>
+                    <!-- End Header Logo -->
+                </div>
+                <div class="col-md-7 d-xs-none">
+                    <!-- Start Main Menu Search -->
+                    <div class="main-menu-search">
+                        <!-- navbar search start -->
+                        <form th:action="@{/search/}" th:method="get">
+                            <div class="navbar-search search-style-5">
+                                <div class="search-input">
+                                    <input type="text" placeholder="Search" name="keyword"
+                                           th:value="${keyword}">
+                                </div>
+                                <div class="search-btn">
+                                    <button type="submit">
+                                        <i class="lni lni-search-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- navbar search Ends -->
+                    </div>
+                    <!-- End Main Menu Search -->
+                </div>
+                <div class="col-md-2 col-5">
+                    <div class="">
+                        <div class="navbar-cart">
+                            <!--        <div class="wishlist">
+                        <a href="javascript:void(0)">
+                            <i class="lni lni-heart"></i>
+                            <span class="total-items">0</span>
+                        </a>
+                    </div> -->
+                            <!--  giỏ hàng -->
+                            <div class="cart-items" sec:authorize="isAuthenticated()">
+                                <a th:href="@{/cart}" class="main-btn"> <i
+                                        class="lni lni-cart"></i> <span class="total-items"
+                                                                        th:if="${countCart > 0}" th:text="${countCart}">${countCart}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Header Middle -->
+    <!-- Start Header Bottom -->
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12 col-md-6 col-12">
+                <div class="nav-inner">
+                    <!-- Start Mega Category Menu -->
+                    <div class="mega-category-menu">
+                        <a th:href="@{/products}" th:text="#{header.allCategories}"><span
+                                class="cat-button"><i class="lni lni-menu"></i></span></a>
+                        <ul class="sub-category">
+                            <li th:each="category : ${categories}"><a
+                                    th:href="@{|/products/${category.slug}|}"
+                                    th:text="${category.name}"></a></li>
+                        </ul>
+                    </div>
+                    <!-- End Mega Category Menu -->
+                    <!-- Start Navbar -->
+                    <nav class="navbar navbar-expand-lg">
+                        <button class="navbar-toggler mobile-menu-btn" type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent"
+                                aria-controls="navbarSupportedContent" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="toggler-icon"></span> <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse sub-menu-bar"
+                             id="navbarSupportedContent">
+                            <ul id="nav" class="navbar-nav ms-auto">
+                                <li class="nav-item"><a th:href="@{/home}" class="active"
+                                                        aria-label="Toggle navigation" th:text="#{header.home}"> </a>
+                                </li>
+                                <li class="nav-item"><a href="#"
+                                                        aria-label="Toggle navigation" th:text="#{header.aboutUs}">
+                                </a></li>
+                                <li class="nav-item"><a href="#"
+                                                        aria-label="Toggle navigation" th:text="#{header.contact}">
+                                </a></li>
+                            </ul>
+                        </div>
+                        <!-- navbar collapse -->
+                    </nav>
+                    <!-- End Navbar -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Header Bottom -->
+</header>
 </body>
 </html>

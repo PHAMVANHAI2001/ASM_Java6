@@ -1,29 +1,23 @@
 package com.eshop.controller.user;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.eshop.constant.SessionConstant;
-import com.eshop.entities.OrderDetail;
+import com.eshop.entities.Order;
 import com.eshop.entities.Product;
 import com.eshop.entities.User;
 import com.eshop.service.CartService;
 import com.eshop.service.OrderService;
 import com.eshop.service.ProductService;
 import com.eshop.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -67,13 +61,15 @@ public class CartController {
 	@PostMapping("cart/order")
 	public String orderCart(@ModelAttribute("customerInfo") User customerInfo, Model model, HttpSession session) {
 		User currentUser = (User) session.getAttribute(SessionConstant.CURRENT_USER);
-		
 		orderService.save(currentUser, customerInfo.getAddress(), customerInfo.getPhoneNumber());
-		return "";
+		return "redirect:/order-history";
 	}
 	
 	@RequestMapping("order-history")
-	public String getOrderHistory() {
+	public String getOrderHistory(HttpSession session, Model model) {
+		User currentUser = (User) session.getAttribute(SessionConstant.CURRENT_USER);
+		List<Order> currentOrder = orderService.getOrder(currentUser.getId());
+		model.addAttribute("orders", currentOrder);
 		return "site/order/order-history";
 	}
 }
