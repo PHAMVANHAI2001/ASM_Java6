@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:replace="~{/site/layout/index::areas(~{::title},~{::main})}">
+<head>
+<meta charset="UTF-8">
+<title>Tìm kiếm</title>
+</head>
+<body>
+	<main>
+		<!-- Start Trending Product Area -->
+		<section class="trending-product section" style="margin-top: 12px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="section-title">
+							<h2>Sản phẩm tìm kiếm</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<th:block th:each="product : ${products}"
+						th:object="${product}">
+						<div class="col-lg-3 col-md-6 col-12 d-flex">
+							<!-- Start Single Product -->
+							<div class="single-product">
+								<div class="product-image">
+									<img th:src="*{image}" alt="#"> <span class="sale-tag"
+										th:if="*{discount != null}"
+										th:text="'-' + *{discount.saleOff} + '%'"></span>
+									<div class="button">
+										<a th:href="@{|/cart/add/*{slug}|}" class="btn"><i
+											class="lni lni-cart"></i> Add to Cart</a>
+									</div>
+								</div>
+								<div class="product-info">
+									<span class="category" th:text="*{category.name}"></span>
+									<h4 class="title">
+										<a th:href="@{|/product-details/*{slug}|}" th:text="*{name}"></a>
+									</h4>
+									<ul class="review">
+										<li><i class="lni lni-star-filled"></i></li>
+										<li><i class="lni lni-star-filled"></i></li>
+										<li><i class="lni lni-star-filled"></i></li>
+										<li><i class="lni lni-star-filled"></i></li>
+										<li><i class="lni lni-star-filled"></i></li>
+										<li><span>5.0 Review(s)</span></li>
+									</ul>
+									<div class="price" th:if="*{discount != null}"
+										th:with="salePrice=*{unitPrice-(unitPrice*discount.saleOff)/100} ">
+										<span class="discount-price"
+											th:text="*{#numbers.formatDecimal(unitPrice,0,'POINT',2,'COMMA')} + 'VNĐ'">
+										</span> <span th:if="*{discount != null}"
+											th:text="${#numbers.formatDecimal(salePrice,0,'POINT',2,'COMMA')} + 'VNĐ'">
+										</span>
+									</div>
+									<div class="price" th:if="*{discount == null}">
+										<span
+											th:text="*{#numbers.formatDecimal(unitPrice,0,'POINT',2,'COMMA')} + 'VNĐ'">
+										</span>
+									</div>
+								</div>
+							</div>
+							<!-- End Single Product -->
+						</div>
+					</th:block>
+				</div>
+			</div>
+		</section>
+		<!-- End Trending Product Area -->
+
+		<!-- Start Shipping Info -->
+		<section class="shipping-info">
+			<div class="container">
+				<ul>
+					<!-- Free Shipping -->
+					<li>
+						<div class="media-icon">
+							<i class="lni lni-delivery"></i>
+						</div>
+						<div class="media-body">
+							<h5>Miễn phí vận chuyển</h5>
+						</div>
+					</li>
+					<!-- Money Return -->
+					<li>
+						<div class="media-icon">
+							<i class="lni lni-support"></i>
+						</div>
+						<div class="media-body">
+							<h5>Hỗ trợ 24/7.</h5>
+						</div>
+					</li>
+					<!-- Support 24/7 -->
+					<li>
+						<div class="media-icon">
+							<i class="lni lni-credit-cards"></i>
+						</div>
+						<div class="media-body">
+							<h5>Thanh toán trực tuyến.</h5>
+						</div>
+					</li>
+					<!-- Safe Payment -->
+					<li>
+						<div class="media-icon">
+							<i class="lni lni-reload"></i>
+						</div>
+						<div class="media-body">
+							<h5>Đổi trả dễ dàng.</h5>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<!-- End Shipping Info -->
+	</main>
+</body>
+</html>

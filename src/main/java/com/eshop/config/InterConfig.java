@@ -16,7 +16,7 @@ public class InterConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(global).addPathPatterns("/**").excludePathPatterns("/assets/**");
+        registry.addInterceptor(global).addPathPatterns("/**").excludePathPatterns("/assets/**", "/api/**");
 //        registry.addInterceptor(auth)
 //                .addPathPatterns("/user/**", "/admin/**")
 //                .excludePathPatterns("/assets/**", "/admin/home/index");

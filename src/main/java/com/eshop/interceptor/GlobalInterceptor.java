@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.eshop.constant.SessionConstant;
 import com.eshop.entities.Cart;
 import com.eshop.entities.User;
 import com.eshop.jpaRepository.CartRepository;
@@ -27,7 +28,7 @@ public class GlobalInterceptor implements HandlerInterceptor {
 	@Autowired
 	SessionService sessionService;
 	@Autowired
-    UserService userService;
+	UserService userService;
 	@Autowired
 	CategoryService categoryService;
 	@Autowired
@@ -41,13 +42,16 @@ public class GlobalInterceptor implements HandlerInterceptor {
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
 		request.setAttribute("categories", categoryService.findAll());
-//		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//		if(username != null) {
-//			User user = userService.findByUsername(username);
-//			List<Cart> countCart = cartService.findByUserId(user.getId());
-//			request.setAttribute("countCart", countCart.size());
-//		}
+		User currentUser = userService.getCurrentUser();
+		if (currentUser != null) {		
+			sessionService.set(SessionConstant.CURRENT_USER, currentUser);
+			List<Cart> cartList = cartService.findByUserId(currentUser.getId());
+			request.setAttribute("totalPrice", cartService.getTotalPrice());
+			request.setAttribute("cartList", cartList);
+			request.setAttribute("countCart", cartList.size());
+		}
 	}
 }

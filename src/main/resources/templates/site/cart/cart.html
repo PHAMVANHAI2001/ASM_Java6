@@ -30,8 +30,7 @@
 									<div th:each="cart : ${cartList}" class="cart-single-list">
 										<div class="row align-items-center">
 											<div class="col-lg-1 col-md-2 col-12">
-												<a th:href="#"><img th:src="${cart.product.image}"
-													alt="#"></a>
+												<a href=""><img th:src="${cart.product.image}" alt=""></a>
 											</div>
 											<div class="col-lg-9 col-md-7 col-12">
 												<h5 class="product-name">
@@ -47,7 +46,8 @@
 											<div class="col-lg-2 col-md-3 col-12">
 												<div class="count-input">
 													<input class="form-control" type="number" id="quantity1"
-														min="1" value="${cart.quantity}">
+														min="1" th:value="${cart.quantity}"
+														th:onchange="updateQuantity([[${cart.id}]],this)">
 												</div>
 												<div
 													class="d-inline-flex align-items-center position-relative">
@@ -59,17 +59,39 @@
 										</div>
 									</div>
 								</div>
+								<div class="card mt-3">
+									<div class="card-header">
+										<h4>Thông tin khách hàng</h4>
+									</div>
+									<div class="card-body">
+										<div id="customer-information" class="mt-1">
+											<form id="order-info-frm" class="needs-validation" th:method="post" th:action="@{/cart/order}" th:object="${customerInfo}">
+												<div class="form-floating mb-1">
+													<input type="text" class="form-control w-100"
+														id="address" placeholder="Địa chỉ giao hàng"
+														name="address" th:field="*{address}" required>
+														 <label for="address">Địa chỉ giao hàng</label>
+												</div>
+												<div class="form-floating">
+													<input type="text" class="form-control w-100"
+														id="phoneNumber" placeholder="Số điện thoại" required
+														name="phoneNumber" th:field="*{phoneNumber}"> <label for="phoneNumber">Số điện thoại</label>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="col-lg-3 col-12">
 								<div class="right">
 									<ul>
-										<li>Tổng Tiền: <span>[(${#numbers.formatDecimal(totalUnitPrice,
-												0, 'WHITESPACE', 2, 'POINT')})]</span></li>
-										<li>Shipping<span>Free</span></li>
+										<li>Tổng Tiền: <b><span id="total-price-cart">[(${#numbers.formatDecimal(totalPrice,
+													0, 'POINT', 0, 'POINT')})] đ</span></b></li>
 									</ul>
-									<div class="button">
-										<a th:href="@{/cart/order}" class="btn">Đặt Hàng</a>
-									</div>
+
+									<button class="btn btn-primary" type="submit" form="order-info-frm">
+										Đặt hàng
+									</button>
 								</div>
 							</div>
 						</div>
@@ -78,5 +100,18 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		function updateQuantity(cartId, quantityInput) {
+			let baseUrl = window.location.origin;
+			let quantity = quantityInput.value;
+			let url = baseUrl + "/api/carts/" + cartId + "/" + quantity;
+			$.get(url).done(function(data) {
+				console.log(data);
+				$('#total-price-cart').text(data.totalPrice + ' đ');
+			});
+		}
+		
+		
+	</script>
 </body>
 </html>

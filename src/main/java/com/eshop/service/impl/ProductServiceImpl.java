@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Product findById(Integer Id) {
-		Optional<Product> optional = repo.findById(Id); // fix noi NullPoiterException
+		Optional<Product> optional = repo.findById(Id); // fix loi NullPoiterException
 		return optional.isPresent() ? optional.get() : null;
 	}
 
@@ -50,5 +50,10 @@ public class ProductServiceImpl implements ProductService{
 	public Page<Product> findByProductOfCategory(String category, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return repo.findByCategorySlug(category, pageable);
+	}
+
+	@Override
+	public List<Product> searchProductsByKeyword(String keyword) {
+		return repo.findByNameContainingAllIgnoreCase(keyword);
 	}
 }

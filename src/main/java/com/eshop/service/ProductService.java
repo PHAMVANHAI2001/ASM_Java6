@@ -21,4 +21,6 @@ public interface ProductService {
 	Page<Product> findByProductOfCategory(String category, Pageable pageable);
 	
 	Product findBySlug(String slug);
+	
+	List<Product> searchProductsByKeyword(String keyword);
 }

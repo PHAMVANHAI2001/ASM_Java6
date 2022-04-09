@@ -55,21 +55,27 @@ public class HomeController {
 		return "site/user/login";
 	}
 	
-//	@PostMapping("login")
-//	public String doPostLogin(Model model, @ModelAttribute("userRequest") User userRequest, HttpSession session) {
-//		User userReponse = userService.doLogin(userRequest.getUsername(), userRequest.getPassword());
-//		if (userReponse != null) {
-//			session.setAttribute(SessionConstant.CURRENT_USER, userReponse);
-//			return "redirect:/home";
-//		} else {
-//			model.addAttribute("messageFailed", "Đăng nhập thất bại");
-//			return "redirect:/login";
-//		}
-//	}
+	@PostMapping("login")
+	public String doPostLogin(Model model, @ModelAttribute("userRequest") User userRequest) {
+		User userReponse = userService.doLogin(userRequest.getUsername(), userRequest.getPassword());
+		if (userReponse != null) {
+			return "redirect:/home";
+		} else {
+			model.addAttribute("messageFailed", "Đăng nhập thất bại");
+			return "site/user/login";
+		}
+	}
 	
 	@RequestMapping("logout")
 	public String doGetLogout(HttpSession session) {
-		session.removeAttribute("currentUser");
+		session.removeAttribute(SessionConstant.CURRENT_USER);
 		return "redirect:/home";
+	}
+	
+	@RequestMapping("search/")
+	public String searchByKeyword(Model model, @RequestParam("keyword") String keyword) {
+		List<Product> products = productService.searchProductsByKeyword(keyword);
+		model.addAttribute("products", products);
+		return "site/search/page-search";
 	}
 }

@@ -19,6 +19,12 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css" />
 		<link rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/glightbox@3.1.0/dist/css/glightbox.min.css" />
+		<!-- 	begin css datatables -->
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+		<link rel="stylesheet"
+			href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
+		<!-- end datatables -->
 		<link rel="stylesheet" th:href="@{/assets/user/css/main.css}" />
 		<link rel="stylesheet" th:href="@{/assets/user/css/style.css}" />
 		<link rel="stylesheet" th:href="@{/assets/css/all.min.css}" />
@@ -37,10 +43,26 @@
 
 		<script
 			src="https://cdn.jsdelivr.net/npm/glightbox@3.1.0/dist/js/glightbox.min.js"></script>
-		<script th:src="@{/assets/user/js/main.js}"></script>
-
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<!-- begin script datatables -->
+		<script
+			src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+		<script
+			src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+		<script>
+			// DataTable
+			$(document).ready(function() {
+				$('#order-history').DataTable({
+					lengthMenu : [ 3, 5, 10 ],
+					pageLength : 3,
+				});
+			});
+		</script>
+		<!-- end script datatabales -->
+		<script th:src="@{/assets/user/js/main.js}"></script>
 	</th:block>
 </body>
 </html>

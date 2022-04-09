@@ -1,6 +1,5 @@
 package com.eshop.controller.user;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +43,4 @@ public class ProductController {
 		model.addAttribute("product", product);
 		return "site/product/product-details";
 	}
-
 }

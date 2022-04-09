@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ import com.eshop.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-	
+
 	@Autowired
 	UserRepository userRepo;
 	@Autowired
@@ -49,9 +50,8 @@ public class UserServiceImpl implements UserService {
 			boolean checkPassword = bcrypt.matches(password, hashPass);
 //			sessionService.set("user", user);
 			return checkPassword ? user : null;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findByUsername(username);
 	}
 
-	//OK
+	// OK
 	@Override
 	@Transactional
 	public User save(User user) {
@@ -80,5 +80,14 @@ public class UserServiceImpl implements UserService {
 		userAuthority.setUser(user);
 		authorityService.save(userAuthority);
 		return user;
+	}
+
+	public User getCurrentUser() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		if(username == null) {
+			return null;
+		}
+		User currentUser = userRepo.findByUsername(username);
+		return currentUser;
 	}
 }

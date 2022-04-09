@@ -11,4 +11,5 @@ public interface UserService {
     User doLogin(String username,String password);
     UserProfile doGetProfile(String username);
     User save(User user);
+    User getCurrentUser();
 }

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eshop.constant.SessionConstant;
 import com.eshop.dto.UserProfile;
 import com.eshop.dto.UserRegister;
 import com.eshop.entities.Cart;
@@ -100,11 +102,9 @@ public class UserController {
 	}
 
 	@GetMapping("profile")
-	public String doGetProfile(Model model, Authentication auth) {
-		if (auth.isAuthenticated()) {
-			String username = auth.getName();
-			model.addAttribute("userProfile", userService.doGetProfile(username));
-		}
+	public String doGetProfile(Model model, HttpSession session) {
+		User currentUser = (User) session.getAttribute(SessionConstant.CURRENT_USER);
+		model.addAttribute("userProfile", userService.doGetProfile(currentUser.getUsername()));
 		return "site/user/profile";
 	}
 
@@ -256,7 +256,7 @@ public class UserController {
 //		newOrder.setTotalUnitPrice(getTotalPrice(cartDAO.findByUserId(user.getId())));
 //		orderDAO.save(newOrder);
 //
-//		for (Cart cart : cartDAO.findByUserId(user.getId())) {
+//		for (Cart cart : cartList) {
 //			OrderDetail newOrderDetail = new OrderDetail();
 //			newOrderDetail.setOrder(newOrder);
 //			newOrderDetail.setProduct(cart.getProduct());

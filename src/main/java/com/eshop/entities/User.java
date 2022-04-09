@@ -13,6 +13,8 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,12 +62,15 @@ public class User {
     @Column(name = "Enabled", nullable = false)
     private Boolean enabled = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Authority> authorities = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts = new LinkedHashSet<>();
 

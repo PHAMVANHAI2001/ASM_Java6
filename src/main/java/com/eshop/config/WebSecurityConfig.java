@@ -20,9 +20,10 @@ import com.eshop.service.impl.UserDetailsServiceImpl;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
-	
+
 	@Autowired
 	UserDetailsServiceImpl userDetailsServiceImpl;
+
 //	Ma hoa mat khau
 	@Bean
 	public BCryptPasswordEncoder getPasswordEncoder() {
@@ -33,19 +34,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().disable();
-		http.authorizeRequests().antMatchers("/assets/**","/home","/login","/register","/forgot-pass","/api/**").permitAll()
-			.anyRequest().authenticated();
-		http.formLogin().loginPage("/login")
-			.loginProcessingUrl("/login")
-			.defaultSuccessUrl("/home",false)
-			.failureUrl("/login?error=true")
-			.usernameParameter("username")
-			.passwordParameter("password");
+//		http.authorizeRequests().antMatchers("/assets/**", "/home", "/login", "/register", "/forgot-pass", "/products",
+//				"/product-details/**", "/api/**").permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/assets/**", "/home", "/login", "/register", "/forgot-pass", "/products",
+				"/product-details/**", "/api/**","/search/**").permitAll()
+		.antMatchers("/cart/**").authenticated();
+		http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/home", false)
+				.failureUrl("/login?error=true").usernameParameter("username").passwordParameter("password");
 		http.rememberMe().rememberMeParameter("rememberMe");
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/home");
 	}
-	
-	
+
 //	Quan ly du lieu nguoi su dung
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

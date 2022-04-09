@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Drivers ModelVersion="2.0.0">
+	<Driver
+		Port="3306"
+		Class="org.mariadb.jdbc.Driver"
+		URL="jdbc:mysql://&lt;host&gt;:&lt;port&gt;/&lt;db&gt;"
+		name="MySQL (MariaDB)">
+		<JAR name="org.mariadb.jdbc;mariadb-java-client;2.2.1"/>
+	</Driver>
+	<Driver
+		Port="5432"
+		Class="org.postgresql.Driver"
+		URL="jdbc:postgresql://&lt;host&gt;:&lt;port&gt;/&lt;db&gt;"
+		name="PostgreSQL">
+        <JAR name="org.postgresql;postgresql;42.2.2"/>
+	</Driver>
+	<Driver
+		Port="1433"
+		Class="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		URL="jdbc:sqlserver://&lt;host&gt;:&lt;port&gt;;DatabaseName=&lt;db&gt;"
+		name="MS SQL Server">
+        <JAR name="com.microsoft.sqlserver;mssql-jdbc;7.2.2.jre8"/>
+	</Driver>
+	<Driver
+		Port="5000"
+		Class="net.sourceforge.jtds.jdbc.Driver"
+		URL="jdbc:jtds:sybase://&lt;host&gt;:&lt;port&gt;;DatabaseName=&lt;db&gt;"
+		name="Sybase ASE (jTDS)">
+		<JAR name="net.sourceforge.jtds;jtds;1.3.1"/>
+	</Driver>
+	<Driver
+		Port="1521"
+		Class="oracle.jdbc.OracleDriver"
+		URL="jdbc:oracle:thin:@//&lt;host&gt;:&lt;port&gt;/&lt;db&gt;"
+        Repo="https://maven.oracle.com"
+		name="Oracle">
+        <JAR name="com.oracle.jdbc;ojdbc8;12.2.0.1"/>
+	</Driver>
+	<Driver
+		Port="1527"
+		Class="org.apache.derby.jdbc.ClientDriver"
+		URL="jdbc:derby://&lt;host&gt;:&lt;port&gt;/&lt;db&gt;;create=false"
+		name="Derby">
+		<JAR name="org.apache.derby;derbyclient;10.14.2.0"/>
+		<JAR name="org.apache.derby;derbynet;10.14.2.0"/>
+		<JAR name="org.apache.derby;derby;10.14.2.0"/>
+	</Driver>
+	<Driver
+		Port="3050"
+		Class="org.firebirdsql.jdbc.FBDriver"
+		URL="jdbc:firebirdsql:&lt;host&gt;/&lt;port&gt;:&lt;db&gt;"
+        Repo="https://www.dcm4che.org/maven2"
+		name="Firebird">
+        <JAR name="org.firebirdsql.jdbc;jaybird-full;2.2.1"/>
+	</Driver>
+</Drivers>
+
