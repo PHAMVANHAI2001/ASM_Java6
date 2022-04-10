@@ -1,43 +1,89 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      th:replace="~{/site/layout/index::areas(~{::title},~{::body})}">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:replace="~{/site/layout/index::areas(~{::title},~{::body})}">
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
 <body>
-<main
-        class="d-flex flex-column align-items-center container mt-5"
-        style="min-height: 75vh">
-    <div class="table-title text-primary">
-        <h3 class="text-uppercase">Lịch sử đơn hàng</h3>
-    </div>
-    <table id="order-history"
-           class="table table-striped table-bordered table-hover"
-           style="width: 1000px">
-        <thead class="table-dark text-center">
-        <tr>
-            <th scope="col">Mã đơn hàng</th>
-            <th scope="col">Ngày tạo</th>
-            <th scope="col">Trạng Thái</th>
-            <th scope="col">Tổng tiền</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${orders}" th:object="${order}">
-            <td th:text="*{orderCode}"></td>
-            <td th:text="*{#dates.format(createdDate, 'dd-MM-yyyy')}"></td>
-            <th:block th:switch="*{status}">
-                <td th:case=0>Đang giao</td>
-                <td th:case=1>Đã giao</td>
-                <td th:case=2>Bị hủy</td>
-            </th:block>
-            <td th:text="*{#numbers.formatDecimal(totalUnitPrice,0,'POINT',2,'COMMA')} + ' VNĐ'"></td>
-        </tr>
-        </tbody>
-    </table>
-</main>
+	<main class="d-flex flex-column align-items-center container mt-5"
+		style="min-height: 75vh">
+		<div class="table-title text-primary">
+			<h3 class="text-uppercase">Lịch sử đơn hàng</h3>
+		</div>
+		<table id="order-history"
+			class="table table-striped table-bordered table-hover"
+			style="width: 1000px">
+			<thead class="table-dark text-center">
+				<tr>
+					<th scope="col">Mã đơn hàng</th>
+					<th scope="col">Ngày tạo</th>
+					<th scope="col">Trạng Thái</th>
+					<th scope="col">Tổng tiền</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="order : ${orders}" th:object="${order}">
+					<td><a class="nav-link-style fw-medium fs-sm"
+						th:href="@{|#order-details-*{id}|}" data-bs-toggle="modal"
+						th:text="*{orderCode}"></a> <!-- Order Details Modal-->
+						<div class="modal fade" th:id="'order-details-' + *{id}">
+							<div class="modal-dialog modal-lg modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" th:text="*{orderCode}"></h5>
+										<button class="btn-close" type="button"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body pb-0">
+										<!-- Item-->
+										<div
+											class="d-sm-flex justify-content-between my-4 pb-3 pb-sm-2 border-bottom"
+											th:each="item : ${order.orderDetails}">
+											<div class="d-sm-flex text-center text-sm-start">
+												<a class="d-inline-block flex-shrink-0 mx-auto"
+													href="shop-single-v1.html" style="width: 10rem;"><img
+													th:src="${item.product.image}" alt="Product"></a>
+												<div class="ps-sm-4 pt-2">
+													<h3 class="product-title fs-base mb-2"
+														th:text="${item.product.name}"></h3>
+													<div class="fs-sm">
+														<span class="text-muted me-2">Thể loại: </span><b th:text="${item.product.category.name}"></b>
+													</div>
+													<div class="fs-sm">
+														<span class="text-muted me-2">Màu: </span><b>Tím mộng mơ</b> 
+													</div>
+												</div>
+											</div>
+											<div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
+												<div class="text-muted mb-2">Quantity:</div>
+												<b th:text="${item.quantity}"></b>
+											</div>
+											<div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
+												<div class="text-muted mb-2">Subtotal</div>
+												<b th:text="${#numbers.formatDecimal(item.totalUnitPrice,0,'POINT',2,'COMMA')}"></b>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div></td>
+					<td th:text="*{#dates.format(createdDate, 'dd-MM-yyyy')}"></td>
+					<th:block th:switch="*{status}">
+						<td th:case=0><span class="badge bg-warning m-0">Đang
+								giao</span></td>
+						<td th:case=1><span class="badge bg-success m-0">Đã
+								giao</span></td>
+						<td th:case=2><span class="badge bg-danger m-0">Bị hủy</span></td>
+					</th:block>
+					<td
+						th:text="*{#numbers.formatDecimal(totalUnitPrice,0,'POINT',2,'COMMA')} + ' VNĐ'"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</main>
 </body>
 </html>

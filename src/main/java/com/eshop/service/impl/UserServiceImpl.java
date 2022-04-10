@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
-import com.eshop.dto.UserProfile;
+import com.eshop.constant.SessionConstant;
+import com.eshop.dto.EditProfileDto;
 import com.eshop.entities.Authority;
 import com.eshop.entities.User;
 import com.eshop.jpaRepository.UserRepository;
@@ -38,7 +40,6 @@ public class UserServiceImpl implements UserService {
 	ParamService paramService;
 	@Autowired
 	SessionService session;
-
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -55,9 +56,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserProfile doGetProfile(String username) {
+	public EditProfileDto doGetProfile(String username) {
 		User userReponse = userRepo.findByUsername(username);
-		UserProfile userProfile = modelMapper.map(userReponse, UserProfile.class);
+		EditProfileDto userProfile = modelMapper.map(userReponse, EditProfileDto.class);
 		return userProfile;
 	}
 
@@ -89,5 +90,34 @@ public class UserServiceImpl implements UserService {
 		}
 		User currentUser = userRepo.findByUsername(username);
 		return currentUser;
+	}
+
+	@Override
+	public void changePassword(String oldPassword, String newPassword, String confirmPassword) {
+		User currentUser = session.get(SessionConstant.CURRENT_USER);
+		String hashPass = currentUser.getPassword();
+		boolean isCheckPassword = bcrypt.matches(oldPassword, hashPass);
+		if(isCheckPassword) {
+			if(newPassword.equals(oldPassword)) {
+				System.out.println("Mật khẩu mới không được trùng với mật khẩu cũ!");
+			}else {
+				if(confirmPassword.equals(newPassword)) {
+					System.out.println("Đổi mật khẩu thành công!");
+					String newHashPassword = bcrypt.encode(newPassword);
+					currentUser.setPassword(newHashPassword);
+					userRepo.saveAndFlush(currentUser);
+				}else {
+					System.out.println("Mật khẩu xác nhận sai!");
+				}
+			}
+		}else {
+			System.out.println("Mật khẩu cũ không đúng!");
+		}
+	}
+
+	@Override
+	public void editProfile(EditProfileDto user) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	th:fragment="areas(title,body)">
+<head>
+<meta charset="UTF-8">
+<title th:replace="${title}">Insert title here</title>
+<th:block th:replace="~{/common/adminFragments::css-admin}">
+</th:block>
+</head>
+<body class="sb-nav-fixed">
+	<div th:replace="~{/site/admin/layout/_navbar::navbar}"></div>
+	<div id="layoutSidenav">
+		<div th:replace="~{/site/admin/layout/_sidenav::sidenav}"></div>
+		<div id="layoutSidenav_content">
+			<main
+				class="d-flex flex-column align-items-center justify-content-center container"
+				style="min-height: 75vh" th:insert="${body}">
+				
+			</main>
+			<div th:replace="~{/site/admin/layout/_footer::footer}"></div>
+		</div>
+	</div>
+	<th:block th:replace="~{/common/adminFragments::js-admin}">
+	</th:block>
+</body>
+</html>

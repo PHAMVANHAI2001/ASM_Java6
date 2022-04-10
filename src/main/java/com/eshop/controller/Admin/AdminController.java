@@ -2,6 +2,7 @@ package com.eshop.controller.Admin;
 
 import com.eshop.entities.Order;
 import com.eshop.jpaRepository.OrderRepository;
+import com.eshop.service.OrderService;
 import com.eshop.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,31 +13,14 @@ import java.util.List;
 
 @Controller
 public class AdminController {
-    @Autowired
-    SessionService sessionService;
-    @Autowired
-    OrderRepository orderDAO;
+	@Autowired
+	OrderService orderService;
 
-    @RequestMapping("/admin")
+	@RequestMapping("/dashboard")
     public String admin(Model model) {
-//        String username = sessionService.get("username", null);
-//        if (username == null) {
-//            return "redirect:/user/login";
-//        }
-        List<Order> list = orderDAO.findAll();
-        List<Order> newOrders = orderDAO.findAllByStatus(0);
-        List<Order> orderDelivered = orderDAO.findAllByStatus(1);
-        List<Order> totalOrder = orderDAO.findAll();
-        long totalRevenue = 0;
-        for(Order order : list) {
-            totalRevenue += order.getTotalUnitPrice();
-        }
-        model.addAttribute("totalRevenue", totalRevenue);
-        model.addAttribute("newOrders", newOrders.size());
-        model.addAttribute("orderDelivered", orderDelivered.size());
-        model.addAttribute("totalOrder", totalOrder.size());
-        return "admin/layout/main";
+		double totalRevenue = orderService.getTotalRevenue();
+    	model.addAttribute("totalRevenue", totalRevenue);
+        return "site/admin/layout/main";
     }
-
 
 }

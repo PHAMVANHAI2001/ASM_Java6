@@ -62,4 +62,14 @@ public class OrderServiceImpl implements OrderService {
         List<Order> currentOrder = orderRepo.findAllByUserId(userId);
         return currentOrder;
     }
+
+	@Override
+	public Double getTotalRevenue() {
+		List<Order> orders = orderRepo.findAll();
+		double totalRevenue = 0 ;
+		for(Order order : orders) {
+			totalRevenue += order.getTotalUnitPrice();
+		}
+		return totalRevenue;
+	}
 }

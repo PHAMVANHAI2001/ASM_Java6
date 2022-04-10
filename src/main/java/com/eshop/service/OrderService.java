@@ -10,4 +10,5 @@ import java.util.List;
 public interface OrderService {
 	Order save(User user,String address,String phoneNumber);
 	List<Order> getOrder(Integer userId);
+	Double getTotalRevenue();
 }

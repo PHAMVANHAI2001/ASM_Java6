@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProfile implements Serializable {
+public class EditProfileDto implements Serializable {
     @NotBlank(message = "{NotBlank.user.email}")
     @Email(message = "{Email.user.email}")
     private String email;

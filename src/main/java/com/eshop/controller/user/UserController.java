@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eshop.constant.SessionConstant;
-import com.eshop.dto.UserProfile;
+import com.eshop.dto.EditProfileDto;
 import com.eshop.dto.UserRegister;
 import com.eshop.entities.Cart;
 import com.eshop.entities.User;
@@ -142,6 +143,13 @@ public class UserController {
 	@GetMapping("change-pass")
 	public String doGetChangePass() {
 		return "site/user/change-pass";
+	}
+
+	@RequestMapping("change-pass")
+	public String doPostChangePass(@RequestParam("oldPassword") String oldPassword,
+			@RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword) {
+		userService.changePassword(oldPassword, newPassword, confirmPassword);
+		return "redirect:/change-pass";
 	}
 
 //	@PostMapping("change-pass")
