@@ -18,58 +18,66 @@
 							<p>Registration takes less than a minute but gives you full
 								control over your orders.</p>
 						</div>
-							<div th:unless="${#strings.isEmpty(messageSuccess)}" class="alert alert-success" role="alert">
-								${messageSuccess}</div>
-							<div th:unless="${#strings.isEmpty(messageFailed)}" class="alert alert-danger" role="alert">
-								${messageFailed}</div>
-						<form class="row" th:action="@{/register}" th:method="post"
+						<div th:if="${succeedMessage != null}" class="alert alert-success"
+							role="alert" th:text="${succeedMessage}"></div>
+						<div th:if="${failedMessage != null}"
+							class="alert alert-danger" role="alert" th:text="${failedMessage}"></div>
+						<form class="row" id="form" th:action="@{/register}" th:method="post"
 							th:object="${userRegister}">
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="username" class="form-label">Username</label>
-									<input type="text" class="form-control" id="username" name="username" th:field="*{username}">
-									<span class="invalid-feedback" th:if="${#fields.hasErrors('username')}"
-                                  th:errors="*{username}"></span>
+									<label for="username" class="form-label">Username</label> 
+									<input type="text" class="form-control" id="username" name="username"
+										th:field="*{username}"> 
+										<any th:errors="*{username}">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="fullname" class="form-label">Fullname</label>
-									<input type="text" class="form-control" id="fullname" name="fullname" th:field="*{fullname}">
-									<span class="invalid-feedback" th:if="${#fields.hasErrors('fullname')}"
-                                  th:errors="*{fullname}"></span>
+									<label for="fullname" class="form-label">Fullname</label> <input
+										type="text" class="form-control" id="fullname" name="fullname"
+										th:field="*{fullname}"> <span class="invalid-feedback"
+										th:if="*{#fields.hasErrors('fullname')}"
+										th:errors="*{fullname}"></span>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="password" class="form-label">Password</label>
-									<input type="password" class="form-control" id="password" name="password" th:field="*{password}">
-									<span class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
-                                  th:errors="*{password}"></span>
+									<label for="password" class="form-label">Password</label> <input
+										type="password" class="form-control" id="password"
+										name="password" th:field="*{password}"> <span
+										class="invalid-feedback"
+										th:if="*{#fields.hasErrors('password')}"
+										th:errors="*{password}"></span>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="email" class="form-label">Email</label>
-									<input type="email" class="form-control" id="email" name="email" th:field="*{email}">
-									<span class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
-                                  th:errors="*{email}"></span>
+									<label for="email" class="form-label">Email</label> <input
+										type="email" class="form-control" id="email" name="email"
+										th:field="*{email}"> <span class="invalid-feedback"
+										th:if="*{#fields.hasErrors('email')}" th:errors="*{email}"></span>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="confirmPassword" class="form-label">confirm Password</label>
-									<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}">
-									<span class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
-                                  th:errors="*{confirmPassword}"></span>
+									<label for="confirmPassword" class="form-label">confirm
+										Password</label> <input type="password" class="form-control"
+										id="confirmPassword" name="confirmPassword"
+										th:field="*{confirmPassword}"> <span
+										class="invalid-feedback"
+										th:if="*{#fields.hasErrors('confirmPassword')}"
+										th:errors="*{confirmPassword}"></span>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="phoneNumber" class="form-label">Phone Number</label>
-									<input type="number" class="form-control" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}">
-									<span class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}"
-                                  th:errors="*{phoneNumber}"></span>
+									<label for="phoneNumber" class="form-label">Phone
+										Number</label> <input type="number" class="form-control"
+										id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}">
+									<span class="invalid-feedback"
+										th:if="*{#fields.hasErrors('phoneNumber')}"
+										th:errors="*{phoneNumber}"></span>
 								</div>
 							</div>
 							<div class="button">

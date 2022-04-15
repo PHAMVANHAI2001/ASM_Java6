@@ -23,4 +23,12 @@ public interface ProductService {
 	Product findBySlug(String slug);
 	
 	List<Product> searchProductsByKeyword(String keyword);
+	
+	void deleteLogical(Integer productId);
+	
+	void activeProduct(Integer productId);
+	
+	Product save(Product product);
+	
+	Boolean existsBySlug(String slug);
 }

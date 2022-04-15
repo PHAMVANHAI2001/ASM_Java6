@@ -10,5 +10,5 @@ import com.eshop.entities.Category;
 public interface CategoryService {
 	List<Category> findAll();
 	
-	List<Category> findBySlug(String slug);
+	Category findBySlug(String slug);
 }

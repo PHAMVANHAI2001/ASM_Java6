@@ -21,8 +21,12 @@ public class AuthorityServiceImpl implements AuthorityService{
 
 	@Override
 	public Authority save(Authority authority) {
-		// TODO Auto-generated method stub
 		return authorityRepo.saveAndFlush(authority);
+	}
+
+	@Override
+	public List<Authority> getAllCustomer() {
+		return authorityRepo.findAllByRoleId(1);
 	}
 
 }

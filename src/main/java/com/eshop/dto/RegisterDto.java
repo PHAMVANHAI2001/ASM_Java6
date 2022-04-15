@@ -17,8 +17,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @ValidateConfirmPassword
-public class UserRegister implements Serializable {
-    @Id
+public class RegisterDto implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2378072170902232655L;
+	@Id
     @NotBlank(message = "{NotBlank.user.username}")
     private String username;
     @NotBlank(message = "{NotBlank.user.fullname}")

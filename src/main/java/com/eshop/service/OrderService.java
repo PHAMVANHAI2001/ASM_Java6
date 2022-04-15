@@ -11,4 +11,7 @@ public interface OrderService {
 	Order save(User user,String address,String phoneNumber);
 	List<Order> getOrder(Integer userId);
 	Double getTotalRevenue();
+	Integer getTotalNewOrders();
+	Integer getTotalOrders();
+	Integer getOrdersDelivered();
 }

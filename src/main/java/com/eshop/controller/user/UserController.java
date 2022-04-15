@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.eshop.constant.SessionConstant;
 import com.eshop.dto.EditProfileDto;
-import com.eshop.dto.UserRegister;
+import com.eshop.dto.RegisterDto;
 import com.eshop.entities.Cart;
 import com.eshop.entities.User;
 import com.eshop.service.CookieService;
@@ -74,38 +74,11 @@ public class UserController {
 		System.out.println(generatedString);
 	}
 
-	@GetMapping("register")
-	public String doGetRegister(Model model) {
-		model.addAttribute("userRegister", new UserRegister());
-		return "site/user/register";
-	}
-
-	// oke
-	@PostMapping("register")
-	public String doPostRegister(Model model, @ModelAttribute("userRegister") UserRegister userRegister,
-			BindingResult errors) {
-		if (errors.hasErrors()) {
-			model.addAttribute("messageFailed", "Đăng Ký Thất Bại");
-			return "redirect:/register";
-		}
-
-		User userMapper = modelMapper.map(userRegister, User.class);
-
-		User userReponse = userService.save(userMapper);
-
-		if (userReponse != null) {
-			model.addAttribute("messageSuccess", "Đăng Ký Thành Công");
-			return "redirect:/home";
-		} else {
-			model.addAttribute("messageFailed", "Đăng Ký Thất Bại");
-			return "redirect:/register";
-		}
-	}
-
 	@GetMapping("profile")
-	public String doGetProfile(Model model, HttpSession session) {
+	public String doGetProfile(Model model, HttpSession session, @ModelAttribute("userProfile") EditProfileDto editProfileDto) {
 		User currentUser = (User) session.getAttribute(SessionConstant.CURRENT_USER);
-		model.addAttribute("userProfile", userService.doGetProfile(currentUser.getUsername()));
+		editProfileDto = modelMapper.map(currentUser, EditProfileDto.class);
+		model.addAttribute("userProfile", editProfileDto);
 		return "site/user/profile";
 	}
 

@@ -5,20 +5,25 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eshop.constant.SessionConstant;
+import com.eshop.dto.RegisterDto;
 import com.eshop.entities.Product;
 import com.eshop.entities.User;
 import com.eshop.jpaRepository.ProductRepository;
@@ -35,6 +40,9 @@ public class HomeController {
     
     @Autowired
     UserService userService;
+    
+    @Autowired
+	ModelMapper modelMapper;
  
     @RequestMapping("/")
     public String index() {
@@ -77,5 +85,32 @@ public class HomeController {
 		List<Product> products = productService.searchProductsByKeyword(keyword);
 		model.addAttribute("products", products);
 		return "site/search/page-search";
+	}
+	
+	@GetMapping("register")
+	public String doGetRegister(Model model) {
+		model.addAttribute("userRegister", new RegisterDto());
+		return "site/user/register";
+	}
+	
+	@PostMapping("register")
+	public String doPostRegister(Model model,@Validated @ModelAttribute("userRegister") RegisterDto registerDto,
+			BindingResult errors, RedirectAttributes redirectAttribute) {
+		try {
+			if (errors.hasErrors()) {
+				redirectAttribute.addFlashAttribute("failedMessage", "Đăng ký thất bại");
+			}else {
+				User userMapper = modelMapper.map(registerDto, User.class);
+				User userReponse = userService.save(userMapper);
+				if (userReponse != null) {
+					redirectAttribute.addFlashAttribute("succeedMessage", "Đăng ký thành công");
+				} else {
+					redirectAttribute.addFlashAttribute("failedMessage", "Đăng ký thất bại");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		return "redirect:/register";
 	}
 }

@@ -72,4 +72,22 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return totalRevenue;
 	}
+
+	@Override
+	public Integer getTotalNewOrders() {
+		List<Order> newOrders = orderRepo.findAllByStatus(0);
+		return newOrders.size();
+	}
+
+	@Override
+	public Integer getTotalOrders() {
+		List<Order> newOrders = orderRepo.findAll();
+		return newOrders.size();
+	}
+
+	@Override
+	public Integer getOrdersDelivered() {
+		List<Order> newOrders = orderRepo.findAllByStatus(1);
+		return newOrders.size();
+	}
 }

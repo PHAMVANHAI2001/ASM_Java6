@@ -20,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<Category> findBySlug(String slug) {
+	public Category findBySlug(String slug) {
 		return categoryRepo.findBySlug(slug);
 	}
 

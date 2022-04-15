@@ -11,4 +11,5 @@ import com.eshop.entities.User;
 public interface AuthorityService {
 	List<Authority> findByUser(User user);
 	Authority save(Authority authority);
+	List<Authority> getAllCustomer();
 }

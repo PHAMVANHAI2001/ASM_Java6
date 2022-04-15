@@ -73,9 +73,9 @@ CREATE TABLE [Product]
     [Name]        NVARCHAR(255) NOT NULL,
     Slug          NVARCHAR(255) NOT NULL UNIQUE,
     [Image]       VARCHAR(MAX)  NOT NULL,
-    ImagePreview1 VARCHAR(MAX)  NOT NULL,
-    ImagePreview2 VARCHAR(MAX)  NOT NULL,
-    ImagePreview3 VARCHAR(MAX)  NOT NULL,
+    ImagePreview1 VARCHAR(MAX)  NULL,
+    ImagePreview2 VARCHAR(MAX)  NULL,
+    ImagePreview3 VARCHAR(MAX)  NULL,
     [Description] NVARCHAR(MAX) NOT NULL,
     Quantity      INT           NOT NULL,
     UnitPrice     FLOAT         NOT NULL,
@@ -142,21 +142,19 @@ GO
 SET IDENTITY_INSERT [User] ON
 INSERT INTO [User]
     (Id, Username, [Password], Fullname, Email)
-	VALUES	(1,'TeoNV','123456789',N'Nguyễn Văn Tèo','teonv@gmail.com'),
-			(2,'VietTN','123456789',N'Trần Nhật Việt','vietnt@gmail.com'),
-			(3,'MaiNT','123456789',N'Nguyễn Thị Mai','maint@gmail.com'),
-			(4,'HaiPV','123456789',N'Phạm Văn Hải','haipham2001vn@gmail.com')
+	VALUES	(1,'TeoNV','$2a$12$.M8CArgWiDMdsIAVtQ0pb.U9WsZgleXRtCBapGO2yB1BbuOkWtkXe',N'Nguyễn Văn Tèo','teonv@gmail.com'),
+			(2,'VietTN','$2a$12$np17P/4dNpLaGhi/E7jDbevdUiiYf0.NbQw/QtiyFkvWo.nswjNGK',N'Trần Nhật Việt','vietnt@gmail.com'),
+			(3,'MaiNT','$2a$12$BNoHVWL1Hy4TaAtlv2ZvS.eCV6xxv/efg/DEE8CizM4R7LcS1wohK',N'Nguyễn Thị Mai','maint@gmail.com'),
+			(4,'HaiPV','$2a$12$tL7HLxQF7HxFVpYYIqj7NeWbZjIzktiXTYLVLTmsyMzmSzcT8IjFW',N'Phạm Văn Hải','haipham2001vn@gmail.com')
 SET IDENTITY_INSERT [User] OFF
 GO
 
 SET IDENTITY_INSERT [Authority] ON
 INSERT INTO [Authority] (Id,UserId,RoleId) 
 	VALUES	(1,1,1),
-			(2,2,1),
-			(3,3,1),
-			(4,3,2),
-			(5,4,1),
-			(6,4,3)
+			(2,2,2),
+			(3,3,2),
+			(4,4,3)
 SET IDENTITY_INSERT [Authority] OFF
 GO
 
@@ -267,3 +265,21 @@ VALUES
 SET IDENTITY_INSERT [Product] OFF
 GO
 
+-- Stored Procedure
+-- Doanh Thu theo thang ma nam
+CREATE PROC sp_getTotalPricePerMonth(
+	@month varchar(2),
+	@year varchar(4)
+)
+AS BEGIN 
+	DECLARE @result MONEY
+	SET @result = (SELECT SUM(OrderDetails.TotalUnitPrice*OrderDetails.Quantity) as 'totalPrice'
+					FROM [Order] INNER JOIN [OrderDetails] ON [Order].Id = [OrderDetails].OrderId
+					WHERE MONTH([Order].CreatedDate) = @month 
+					AND YEAR([Order].CreatedDate) = @year)
+	IF @result IS NULL 
+		BEGIN 
+			SET @result = 0
+		END
+	SELECT @result 
+END
