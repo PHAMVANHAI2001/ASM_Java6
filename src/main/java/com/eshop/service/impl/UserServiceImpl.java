@@ -120,4 +120,14 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Boolean existsByEmail(String email) {
+		return userRepo.existsByEmail(email);
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
 }

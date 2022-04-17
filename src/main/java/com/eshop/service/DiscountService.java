@@ -6,4 +6,5 @@ import com.eshop.entities.Discount;
 
 public interface DiscountService {
 	List<Discount> findAll();
+	Discount findById(Integer id);
 }

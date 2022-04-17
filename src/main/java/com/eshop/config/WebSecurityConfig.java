@@ -36,8 +36,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.authorizeRequests().antMatchers("/assets/**", "/home", "/login", "/register", "/forgot-pass", "/products",
 //				"/product-details/**", "/api/**").permitAll().anyRequest().authenticated();
 		http.authorizeRequests().antMatchers("/assets/**", "/home", "/login", "/register", "/forgot-pass", "/products",
-				"/product-details/**", "/api/**","/search/**").permitAll()
-		.antMatchers("/cart/**","/order-history/**").authenticated();
+				"/product-details/**", "/api/**", "/search/**").permitAll();
+		http.authorizeRequests()
+				.antMatchers("/dashboard/**").access("hasAnyRole('ROLE_STAFF','ROLE_DIRECTOR')")
+				.antMatchers("/cart/**", "/order-history/**").access("hasRole('ROLE_CUSTOMER')")
+				.anyRequest().authenticated();
 		http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/home", false)
 				.failureUrl("/login?error=true").usernameParameter("username").passwordParameter("password");
 		http.rememberMe().rememberMeParameter("rememberMe");

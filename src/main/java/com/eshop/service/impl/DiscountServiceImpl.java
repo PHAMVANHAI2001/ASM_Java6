@@ -19,4 +19,9 @@ public class DiscountServiceImpl implements DiscountService{
 		return discountRepo.findAll();
 	}
 
+	@Override
+	public Discount findById(Integer id) {
+		return discountRepo.getById(id);
+	}
+
 }

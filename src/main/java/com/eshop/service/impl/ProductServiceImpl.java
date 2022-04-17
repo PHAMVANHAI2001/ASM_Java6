@@ -75,28 +75,28 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public Product save(Product product) {
-		product.setAvailable(0);
-		product.setCreatedDate(new Date());
-		return repo.saveAndFlush(product);
-	}
-
-	private void uploadFile(Product product, MultipartFile photoFile) {
-		if (photoFile.getOriginalFilename() != null && !photoFile.getOriginalFilename().isBlank()) {
-			try {
-				String path = new File("src/main/resources/static/assets/user/img/avatar/").getAbsolutePath();
-
-				String fileName = product.getSlug() + "." + photoFile.getContentType().split("/")[1];
-				product.setImage(fileName);
-				photoFile.transferTo(new File(path + "/" + fileName));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if (repo.existsBySlug(product.getSlug())) {
+			Product productUpdate = repo.findBySlug(product.getSlug());
+			productUpdate.setName(product.getName());
+			productUpdate.setUnitPrice(product.getUnitPrice());
+			productUpdate.setQuantity(product.getQuantity());
+			productUpdate.setCategory(product.getCategory());
+			productUpdate.setDiscount(product.getDiscount());
+			productUpdate.setDescription(product.getDescription());
+			productUpdate.setImage(product.getImage());
+			return repo.saveAndFlush(productUpdate);
+		}else{
+			product.setAvailable(0);
+			product.setCreatedDate(new Date());
+			product.setImagePreview1(null);
+			product.setImagePreview2(null);
+			product.setImagePreview3(null);
+			return repo.saveAndFlush(product);
 		}
 	}
 
 	@Override
 	public Boolean existsBySlug(String slug) {
-		// TODO Auto-generated method stub
 		return repo.existsBySlug(slug);
 	}
 }

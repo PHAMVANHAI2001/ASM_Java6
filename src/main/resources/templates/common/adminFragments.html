@@ -30,10 +30,6 @@
 			crossorigin="anonymous"></script>
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script th:src="@{/assets/admin/js/scripts.js}"></script>
-		<script th:src="@{/assets/admin/js/user.js}"></script>
-		<script th:src="@{/assets/admin/js/manager-products.js}"></script>
-		<!-- 		<script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
 		<script
 			src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 		<script
@@ -42,6 +38,58 @@
 			src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
 			integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA=="
 			crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>-->
+		<script th:inline="javascript">
+			/*<![CDATA][*/
+			var totalPriceLast12Months = /*[[${chartData}]]*/ 'default';
+			/*]]>*/
+			const ctx = document.getElementById('myChart').getContext('2d');
+			const myChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: totalPriceLast12Months[0],
+					datasets: [{
+						label: 'Doanh thu 12 Tháng',
+						data: totalPriceLast12Months[1],
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						],
+						borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 4
+					}]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: false,
+								callback: function(value, index, values) {
+									return value.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+								}
+							}
+						}]
+					}
+				}
+			});
+		</script>
+		<script th:src="@{/assets/admin/js/scripts.js}"></script>
+<!--		<script th:src="@{/assets/admin/js/user.js}"></script>-->
+<!--		<script th:src="@{/assets/admin/js/manager-products.js}"></script>-->
 		<script>
 			// DataTable
 			$(document).ready(function() {

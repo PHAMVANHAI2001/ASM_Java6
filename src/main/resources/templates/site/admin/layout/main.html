@@ -111,7 +111,7 @@
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body">
-						<canvas id="myChart" width="400" height="400"></canvas>
+						<canvas id="myChart" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
 					</div>
 					<!-- /.card-body -->
 				</div>
@@ -119,46 +119,6 @@
 			</div>
 			<!-- /.col -->
 		</div>
-
-		<!-- Content Row -->
-<!-- 		<div class="row">
-			<div class="col-md-12">
-				<div class="card card-gray">
-					<div class="card-header">
-						<h3 class="card-title">Doanh thu theo loại</h3>
-					</div>
-					/.card-header
-					<div class="card-body">
-						<table class="table table-bordered">
-							<thead>
-								<tr>
-									<th style="width: 10px">STT</th>
-									<th>Danh mục</th>
-									<th>Phần trăm</th>
-									<th style="width: 40px">Tổng tiền</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="item , state : ${categories}">
-									<td th:text="${state.index}"></td>
-									<td th:text="${item.name}"></td>
-									<td>
-										<div class="progress progress-xs">
-											<div class="progress-bar progress-bar-danger"
-												style="width: 50%"></div>
-										</div> <span>50%</span>
-									</td>
-									<td><span class="badge bg-danger"></span></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					/.card-body
-				</div>
-				/.card
-			</div>
-			/.col
-		</div> -->
 	</div>
 	<!-- /.container-fluid -->
 

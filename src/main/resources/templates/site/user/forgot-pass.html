@@ -16,17 +16,15 @@
 						<div class="title">
 							<h3>Quên Mật Khẩu</h3>
 						</div>
-						<div th:unless="${#strings.isEmpty(messageSuccess)}"
-							class="alert alert-success" role="alert">${messageSuccess}</div>
-						<div th:unless="${#strings.isEmpty(messageFailed)}"
-							class="alert alert-danger" role="alert">${messageFailed}</div>
+						<div th:if="${succeedMessage != null}"
+							class="alert alert-success" role="alert" th:text="${succeedMessage}"></div>
+						<div th:if="${errorMessage != null}"
+							class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
 						<form class="row" th:action="@{/forgot-pass}" method="post">
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label for="email" class="form-label">Email Address</label> <input
-										type="email" class="form-control" id="email" name="email">
-									<!-- 		<span class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
-                                  th:errors="*{email}"></span> -->
+										type="email" class="form-control" id="email" name="email" required>
 								</div>
 							</div>
 							<div class="button">

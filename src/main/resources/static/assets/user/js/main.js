@@ -93,6 +93,7 @@ window.onbeforeunload = function(e) {
 };
 
 function changeLanguage() {
+	
 	var language = $('#select-language').val();
 	$.ajax({
 		url: "/home?lang=" + language,

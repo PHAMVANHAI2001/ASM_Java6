@@ -145,10 +145,10 @@ public class UserController {
 //		return "redirect:site/user/change-pass";
 //	}
 
-	@GetMapping("forgot-pass")
-	public String doGetForgotPass() {
-		return "site/user/forgot-pass";
-	}
+//	@GetMapping("forgot-pass")
+//	public String doGetForgotPass() {
+//		return "site/user/forgot-pass";
+//	}
 
 //	@PostMapping("forgot-pass")
 //	public String doPostForgotPass(Model model, @RequestParam("email") String email) {

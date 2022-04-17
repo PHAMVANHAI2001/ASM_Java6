@@ -283,3 +283,20 @@ AS BEGIN
 		END
 	SELECT @result 
 END
+
+CREATE PROC sp_getTotalPricePerMonth2(
+	@month varchar(2),
+	@year varchar(4)
+)
+AS BEGIN 
+	DECLARE @result MONEY
+	SET @result = (SELECT SUM(TotalUnitPrice) as 'totalPrice'
+					FROM [Order] 
+					WHERE MONTH([Order].CreatedDate) = @month 
+					AND YEAR([Order].CreatedDate) = @year)
+	IF @result IS NULL 
+		BEGIN 
+			SET @result = 0
+		END
+	SELECT @result 
+END

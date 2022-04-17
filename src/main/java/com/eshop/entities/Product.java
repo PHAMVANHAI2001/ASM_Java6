@@ -16,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.NumberFormat;
 
@@ -41,6 +42,7 @@ public class Product {
     private Integer id;
 
     @Column(name = "Name", nullable = false)
+    @NotBlank(message = "{NotBlank.product.name}")
     private String name;
 
     @Column(name = "Slug", nullable = false)

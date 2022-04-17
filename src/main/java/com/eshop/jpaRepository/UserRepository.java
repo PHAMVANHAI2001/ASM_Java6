@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	User findByUsername(String username);
 	User findByEmail(String email);
 	Boolean existsByUsernameOrEmail(String username, String email);
-	Boolean existsByEmail(String username);
+	Boolean existsByEmail(String email);
 	Boolean existsByUsername(String username);
 	@Query("SELECT DISTINCT ar.user FROM Authority ar WHERE ar.role.id in (2,3)")
 	List<User> getAdministrators();

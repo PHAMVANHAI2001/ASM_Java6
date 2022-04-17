@@ -32,9 +32,9 @@
 					<div class="collapse" id="collapseLayouts"
 						aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="/admin/list-user">Danh sách người
-								dùng</a> <a class="nav-link" href="/admin/edit-user">Cập nhật
-								người dùng</a>
+							<a class="nav-link" th:href="@{/dashboard/customer}">Quản lý Customer</a>
+                            <a class="nav-link" th:href="@{/dashboard/staffs}">Quản lý Staff</a>
+                            <a class="nav-link" th:href="@{/dashboard/authority}">Phân quyền người dùng</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -50,9 +50,8 @@
 					<div class="collapse" id="collapseLayouts2"
 						aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="/admin/list-product">Danh sách sản
-								phẩm</a> <a class="nav-link" href="/admin/edit-product">Cập nhật
-								sản phẩm</a>
+							<a class="nav-link" th:href="@{/dashboard/products}">Danh sách sản
+								phẩm</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

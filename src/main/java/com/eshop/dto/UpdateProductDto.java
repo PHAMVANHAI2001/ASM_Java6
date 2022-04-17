@@ -2,6 +2,7 @@ package com.eshop.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -27,19 +28,13 @@ public class UpdateProductDto implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2355729860031846376L;
+    @Id
+    @NotBlank(message = "{NotBlank.product.slug}")
+    private String slug;
 	@NotBlank(message = "{NotBlank.product.name}")
 	private String name;
-	@NotBlank(message = "{NotBlank.product.slug}")
-    private String slug;
 	private String image;
     private MultipartFile imageFile;
-    private String imagePreview1;
-    private MultipartFile imagePreview1File;
-    private String imagePreview2;
-    private MultipartFile imagePreview2File;
-    private String imagePreview3;
-    private MultipartFile imagePreview3File;
-    
     @NotBlank(message = "{NotBlank.product.description}")
     private String description;
     @NotNull(message = "{NotNull.product.quantity}")

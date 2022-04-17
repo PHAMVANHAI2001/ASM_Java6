@@ -17,8 +17,8 @@ public class DashboardController {
 	
 	@RequestMapping("/dashboard")
     public String admin(Model model) {
-		String[][] temp = statsService.getTotalPriceLast12Months();
-	
+		String[][] chartData = statsService.getTotalPriceLast12Months();
+		model.addAttribute("chartData",chartData);
 		double totalRevenue = orderService.getTotalRevenue();
     	model.addAttribute("totalRevenue", totalRevenue);
     	model.addAttribute("totalNewOrders", orderService.getTotalNewOrders());
