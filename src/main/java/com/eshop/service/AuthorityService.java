@@ -12,4 +12,5 @@ public interface AuthorityService {
 	List<Authority> findByUser(User user);
 	Authority save(Authority authority);
 	List<Authority> getAllCustomer();
+	List<Authority> findAll();
 }

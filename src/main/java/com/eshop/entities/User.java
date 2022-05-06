@@ -13,6 +13,8 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -73,5 +75,4 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts = new LinkedHashSet<>();
-
 }

@@ -15,12 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eshop.constant.SessionConstant;
 import com.eshop.dto.EditProfileDto;
@@ -75,43 +77,26 @@ public class UserController {
 	}
 
 	@GetMapping("profile")
-	public String doGetProfile(Model model, HttpSession session, @ModelAttribute("userProfile") EditProfileDto editProfileDto) {
+	public String doGetProfile(Model model, HttpSession session) {
 		User currentUser = (User) session.getAttribute(SessionConstant.CURRENT_USER);
-		editProfileDto = modelMapper.map(currentUser, EditProfileDto.class);
-		model.addAttribute("userProfile", editProfileDto);
+		EditProfileDto userMapper = modelMapper.map(currentUser, EditProfileDto.class);
+		model.addAttribute("userRequest", userMapper);
 		return "site/user/profile";
 	}
 
-//    @GetMapping("profile")
-//    public String doGetProfile(Model model, @ModelAttribute("editProfile") EditProfile editProfile) {
-//        String username = sessionService.get("username", null);
-//        User user = userRepo.findByUsername(username);
-//        editProfile = modelMapper.map(user, EditProfile.class);
-//        model.addAttribute("editProfile", editProfile);
-//        return "user/profile";
-//    }
-
-//	@PostMapping("profile")
-//	public String doPostProfile(Model model, @ModelAttribute("editProfile") @Validated EditProfile editProfile,
-//			BindingResult result) throws IOException {
-//		if (result.hasErrors()) {
-//			System.out.println(result.getAllErrors());
-//			model.addAttribute("messageFailed", "Cập nhật thông tin thất bại");
-//			return "site/user/profile";
-//		}
-//		User createdUser = userRepo.findByUsername(sessionService.get("username", null));
-//		createdUser.setCreatedDate(new Date());
-//		createdUser.setEmail(editProfile.getEmail());
-//		createdUser.setFullname(editProfile.getFullname());
-//		createdUser.setAddress(editProfile.getAddress());
-//		createdUser.setPhoneNumber(editProfile.getPhoneNumber());
-//		this.uploadPhoto(createdUser, editProfile.getFilePhoto());
-//		User userResult = userRepo.saveAndFlush(createdUser);
-//		editProfile = modelMapper.map(userResult, EditProfile.class);
-//		model.addAttribute("editProfile", editProfile);
-//		model.addAttribute("messageSuccess", "Cập nhật thông tin thành công");
-//		return "site/user/profile";
-//	}
+	@PostMapping("profile")
+	public String doPostProfile(Model model, @Validated @ModelAttribute("userRequest") EditProfileDto userResponse,
+			BindingResult errors, RedirectAttributes redirectAttributes, HttpSession session) {
+		User currentUser = (User) session.getAttribute(SessionConstant.CURRENT_USER);
+		if (errors.hasErrors()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Vui lòng nhập các thông tin cần thiết");
+		}
+		this.uploadFile(userResponse, userResponse.getFilePhoto());
+		modelMapper.map(userResponse, currentUser);
+		userService.editProfile(currentUser);
+		model.addAttribute("succeedMessage", "Cập nhật thông tin thành công");
+		return "site/user/profile";
+	}
 
 	@GetMapping("change-pass")
 	public String doGetChangePass() {
@@ -125,143 +110,16 @@ public class UserController {
 		return "redirect:/change-pass";
 	}
 
-//	@PostMapping("change-pass")
-//	public String doPostChangePass(Model model, @RequestParam("oldPassword") String oldPassword,
-//			@RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword) {
-//		String username = sessionService.get("username", null);
-//		User user = userRepo.findByUsername(username);
-//		if (user.getPassword().equals(oldPassword)) {
-//			if (newPassword.equals(confirmPassword)) {
-//				user.setPassword(newPassword);
-//				userRepo.save(user);
-//				model.addAttribute("message", "Đổi mật khẩu thành công");
-//			} else {
-//				model.addAttribute("message", "Mật khẩu mới và xác nhận mật khẩu không khớp");
-//			}
-//		} else {
-////            model.addAttribute("message", "Mật khẩu cũ không đúng");
-//			System.out.println("Mật khẩu cũ không đúng");
-//		}
-//		return "redirect:site/user/change-pass";
-//	}
-
-//	@GetMapping("forgot-pass")
-//	public String doGetForgotPass() {
-//		return "site/user/forgot-pass";
-//	}
-
-//	@PostMapping("forgot-pass")
-//	public String doPostForgotPass(Model model, @RequestParam("email") String email) {
-//		boolean isExistEmail = userRepo.existsByEmail(email);
-//		if (isExistEmail) {
-//			User user = userRepo.findByEmail(email);
-//			String newPassword = RandomStringUtils.randomAlphanumeric(9);
-//			user.setPassword(newPassword);
-//			mailer.queue(email, "Eshop xin gửi bạn mật khẩu mới", "Mật khẩu mới của bạn là: " + newPassword);
-//			userRepo.save(user);
-//			model.addAttribute("messageSuccess", "Mật khẩu mới đã được gửi tới email của bạn!");
-//		} else {
-//			model.addAttribute("messageFailed", "Email không tồn tại");
-//		}
-//		return "site/user/forgot-pass";
-//	}
-
-//	@RequestMapping("order-history")
-//	public String doGetOrder() {
-//		return "user/order-history";
-//	}
-
-//	@RequestMapping("shopping-cart")
-//	public String doGetShoppingCart(Model model) {
-//		String username = sessionService.get("username", null);
-//		User user = userRepo.findByUsername(username);
-//		List<Cart> cartList = cartDAO.findByUserId(user.getId());
-//		model.addAttribute("cartList", cartList);
-//		model.addAttribute("totalUnitPrice", getTotalPrice(cartList));
-//		return "site/user/shopping-cart";
-//	}
-
-//	@RequestMapping("shopping-cart/add/{slug}")
-//	public String addCart(Model model, @PathVariable String slug) {
-//		String username = sessionService.get("username", null);
-//		if (username == null) {
-//			return "redirect:site/user/login";
-//		}
-//		User user = userRepo.findByUsername(username);
-//		Product productAdd = productDAO.findBySlug(slug);
-//		if (!cartDAO.existsShoppingCartByUserIdAndProductId(user.getId(), productAdd.getId())) {
-//			Cart cart = new Cart();
-//			cart.setUser(user);
-//			cart.setProduct(productAdd);
-//			cart.setQuantity(1);
-//			cart.setCreatedDate(new Date());
-//			cartDAO.save(cart);
-//		} else {
-//			Cart cart = cartDAO.findByProductId(productAdd.getId());
-//			cart.setQuantity(cart.getQuantity() + 1);
-//			cart.setCreatedDate(new Date());
-//			cartDAO.flush();
-//		}
-//		List<Cart> cartList = cartDAO.findByUserId(user.getId());
-//		model.addAttribute("cartList", cartList);
-//		model.addAttribute("totalUnitPrice", getTotalPrice(cartList));
-//		return "site/user/shopping-cart";
-//	}
-
-//	@RequestMapping("shopping-cart/remove/{id}")
-//	public String removeCart(Model model, @PathVariable String id) {
-//		cartDAO.deleteById(Long.valueOf(id));
-//		String username = sessionService.get("username", null);
-//		User user = userRepo.findByUsername(username);
-//		List<Cart> cartList = cartDAO.findByUserId(user.getId());
-//		model.addAttribute("cartList", cartList);
-//		model.addAttribute("totalUnitPrice", getTotalPrice(cartList));
-//		return "site/user/shopping-cart";
-//	}
-
-//	@RequestMapping("shopping-cart/order")
-//	public String orderCart(Model model) {
-//		String username = sessionService.get("username", null);
-//		User user = userRepo.findByUsername(username);
-//		List<Cart> cartList = cartDAO.findByUserId(user.getId());
-//
-//		Order newOrder = new Order();
-//		newOrder.setOrderCode(RandomStringUtils.randomAlphanumeric(11));
-//		newOrder.setUser(user);
-//		newOrder.setCreatedDate(new Date());
-//		newOrder.setStatus(0);
-//		newOrder.setFullname(user.getFullname());
-//		newOrder.setAddress(user.getAddress());
-//		newOrder.setEmail(user.getEmail());
-//		newOrder.setPhoneNumber(user.getPhoneNumber());
-//		newOrder.setTotalUnitPrice(getTotalPrice(cartDAO.findByUserId(user.getId())));
-//		orderDAO.save(newOrder);
-//
-//		for (Cart cart : cartList) {
-//			OrderDetail newOrderDetail = new OrderDetail();
-//			newOrderDetail.setOrder(newOrder);
-//			newOrderDetail.setProduct(cart.getProduct());
-//			newOrderDetail.setQuantity(cart.getQuantity());
-//			newOrderDetail.setTotalUnitPrice(cart.getProduct().getUnitPrice() * cart.getQuantity());
-//			orderDetailDAO.save(newOrderDetail);
-//		}
-//
-//		cartDAO.deleteAll();
-//		return "site/user/shopping-cart";
-//	}
-
-	private void uploadPhoto(User user, MultipartFile filePhoto) throws IOException {
-		if (filePhoto.getOriginalFilename() != null && filePhoto.getOriginalFilename().length() > 0) {
+	public void uploadFile(EditProfileDto user, MultipartFile filePhoto) {
+		if (filePhoto.getOriginalFilename() != null && !filePhoto.getOriginalFilename().isBlank()) {
 			try {
-				String path = app.getRealPath("/assets/images/avatar/");
-				String name = user.getUsername() + "."
-						+ Objects.requireNonNull(filePhoto.getContentType()).split("/")[1];
-				user.setPhoto(name);
-				filePhoto.transferTo(new File(path + name));
-			} catch (Exception e) {
+				String path = new File("src/main/resources/static/assets/images/avatar/").getAbsolutePath();
+				String fileName = user.getUsername() + "." + filePhoto.getContentType().split("/")[1];
+				user.setPhoto(fileName);
+				filePhoto.transferTo(new File(path + "/" + fileName));
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
 }

@@ -1,8 +1,12 @@
 package com.eshop.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +14,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eshop.constant.SessionConstant;
 import com.eshop.dto.EditProfileDto;
+import com.eshop.dto.UpdateProductDto;
 import com.eshop.entities.Authority;
 import com.eshop.entities.User;
 import com.eshop.jpaRepository.UserRepository;
@@ -55,12 +61,12 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	@Override
-	public EditProfileDto doGetProfile(String username) {
-		User userReponse = userRepo.findByUsername(username);
-		EditProfileDto userProfile = modelMapper.map(userReponse, EditProfileDto.class);
-		return userProfile;
-	}
+//	@Override
+//	public EditProfileDto doGetProfile(String username) {
+//		User userRequest = userRepo.findByUsername(username);
+//		EditProfileDto userMapper = modelMapper.map(userRequest, EditProfileDto.class);
+//		return userMapper;
+//	}
 
 	@Override
 	public User findByUsername(String username) {
@@ -85,7 +91,7 @@ public class UserServiceImpl implements UserService {
 
 	public User getCurrentUser() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		if(username == null) {
+		if (username == null) {
 			return null;
 		}
 		User currentUser = userRepo.findByUsername(username);
@@ -97,28 +103,27 @@ public class UserServiceImpl implements UserService {
 		User currentUser = session.get(SessionConstant.CURRENT_USER);
 		String hashPass = currentUser.getPassword();
 		boolean isCheckPassword = bcrypt.matches(oldPassword, hashPass);
-		if(isCheckPassword) {
-			if(newPassword.equals(oldPassword)) {
+		if (isCheckPassword) {
+			if (newPassword.equals(oldPassword)) {
 				System.out.println("Mật khẩu mới không được trùng với mật khẩu cũ!");
-			}else {
-				if(confirmPassword.equals(newPassword)) {
+			} else {
+				if (confirmPassword.equals(newPassword)) {
 					System.out.println("Đổi mật khẩu thành công!");
 					String newHashPassword = bcrypt.encode(newPassword);
 					currentUser.setPassword(newHashPassword);
 					userRepo.saveAndFlush(currentUser);
-				}else {
+				} else {
 					System.out.println("Mật khẩu xác nhận sai!");
 				}
 			}
-		}else {
+		} else {
 			System.out.println("Mật khẩu cũ không đúng!");
 		}
 	}
 
 	@Override
-	public void editProfile(EditProfileDto user) {
-		// TODO Auto-generated method stub
-		
+	public void editProfile(User userResponse) {
+		userRepo.saveAndFlush(userResponse);
 	}
 
 	@Override
@@ -129,5 +134,27 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByEmail(String email) {
 		return userRepo.findByEmail(email);
+	}
+
+	@Override
+	public List<User> getAdministrators() {
+		// TODO Auto-generated method stub
+		return userRepo.getAdministrators();
+	}
+
+	@Override
+	public List<User> getCustomers() {
+		// TODO Auto-generated method stub
+		return userRepo.getCustomers();
+	}
+
+	@Override
+	public void disabled(String username) {
+		userRepo.disabled(username);
+	}
+
+	@Override
+	public void enabled(String username) {
+		userRepo.enabled(username);
 	}
 }

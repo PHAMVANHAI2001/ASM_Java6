@@ -29,4 +29,10 @@ public class AuthorityServiceImpl implements AuthorityService{
 		return authorityRepo.findAllByRoleId(1);
 	}
 
+	@Override
+	public List<Authority> findAll() {
+		// TODO Auto-generated method stub
+		return authorityRepo.findAll();
+	}
+
 }

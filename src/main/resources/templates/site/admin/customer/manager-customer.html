@@ -28,17 +28,22 @@
 		</thead>
 		<tbody>
 			<tr th:each="user : ${users}" th:object="${user}">
-				<td><img th:src="@{|/assets/images/avatar/*{photo}|}" width="80"
-					height="100" th:unless="*{#strings.isEmpty(photo)}"> 
-					<img src="/assets/images/avatar/default.png"
-					width="80" height="100" th:if="*{#strings.isEmpty(photo)}">
-				</td>
+				<td><img th:src="@{|/assets/images/avatar/*{photo}|}"
+					width="80" height="100" th:unless="*{#strings.isEmpty(photo)}">
+					<img th:src="@{/assets/images/avatar/default.png}" width="80"
+					height="100" th:if="*{#strings.isEmpty(photo)}"></td>
 				<td th:text="*{username}"></td>
 				<td th:text="*{fullname}"></td>
-				<td th:text="*{email}">${user.fullname}</td>
-				<td th:text="*{address}">${user.email}</td>
-				<td th:text="*{phoneNumber}">${user.address}</td>
-				<td></td>
+				<td th:text="*{email}"></td>
+				<td th:text="*{address}"></td>
+				<td th:text="*{phoneNumber}"></td>
+				<td class="button" th:if="*{enabled == true}"><a
+					th:href="@{|/dashboard/customer/disabled?username=*{username}|}"
+					class="btn btn-success w-100 my-1"><i
+						class="fa-solid fa-pen-to-square"></i>Disabled</a></td>
+				<td class="button" th:if="*{enabled == false}"><a
+					th:href="@{|/dashboard/customer/enabled?username=*{username}|}"
+					class="btn btn-info w-100 mb-1">Enabled</a></td>
 			</tr>
 		</tbody>
 	</table>
